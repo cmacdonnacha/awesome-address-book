@@ -1,0 +1,84 @@
+{
+  "name": "awesome-address-book",
+  "version": "0.1.2",
+  "description": "This projects shows a basic address book built with ReactJS.",
+  "license": "MIT",
+  "homepage": "https://cmacdonnacha.github.io/awesome-address-book/",
+  "scripts": {
+    "analyze": "npm run build && source-map-explorer 'build/static/js/*.js'",
+    "build": "react-scripts build",
+    "start": "react-scripts start",
+    "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
+    "eject": "react-scripts eject",
+    "lint": "tsc --noEmit && eslint . --ext .ts,.tsx",
+    "test:no-watch": "react-scripts test --watchAll=false --env=jest-environment-jsdom-sixteen",
+    "test:coverage": "react-scripts test --coverage --watchAll=false --env=jest-environment-jsdom-sixteen"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged && npm run lint",
+      "pre-push": "npm run test:no-watch"
+    }
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,ts,tsx}",
+      "!/node_modules/",
+      "!src/utils/**/*",
+      "!src/index.tsx",
+      "!src/serviceWorker.ts",
+      "!src/react-app-env.d.ts"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.3.4",
+    "axios": "^0.19.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.0",
+    "react-router-dom": "^5.1.2",
+    "redux": "^4.0.5",
+    "styled-components": "^5.0.1",
+    "styled-icons": "^10.2.1",
+    "typescript": "^3.7.5"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.3.0",
+    "@testing-library/react": "^10.0.2",
+    "@testing-library/user-event": "^10.0.1",
+    "@types/jest": "^24.9.1",
+    "@types/node": "^12.12.30",
+    "@types/react": "^16.9.25",
+    "@types/react-dom": "^16.9.5",
+    "@types/react-redux": "^7.1.7",
+    "@types/react-router-dom": "^5.1.3",
+    "@types/styled-components": "^5.0.1",
+    "@typescript-eslint/eslint-plugin": "^2.24.0",
+    "@typescript-eslint/parser": "^2.24.0",
+    "babel-plugin-macros": "^2.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^2.5.1",
+    "husky": "^4.2.3",
+    "jest-environment-jsdom-sixteen": "^1.0.3",
+    "prettier": "^2.0.1",
+    "pretty-quick": "^2.0.1",
+    "react-scripts": "3.4.1",
+    "source-map-explorer": "^2.4.2"
+  }
+}

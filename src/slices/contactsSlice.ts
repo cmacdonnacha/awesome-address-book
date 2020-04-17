@@ -1,0 +1,69 @@
+import { createSlice, PayloadAction, Dispatch } from '@reduxjs/toolkit';
+import { RootState } from '.';
+import axios from 'axios';
+
+export interface ContactsState {
+  isLoading: boolean;
+  hasErrors: boolean;
+  contacts: Contact[];
+}
+
+export interface Contact {
+  id: number;
+  name: string;
+  avatarUrl: string;
+  email: string;
+}
+
+export const initialState: ContactsState = {
+  isLoading: false,
+  hasErrors: false,
+  contacts: [],
+};
+
+// Instead of dealing with reducers, actions, and all as separate files and individually creating all those action types, Redux Toolkit gives us the concept of slices.
+// A slice automatically generates reducers, action types, and action creators all in one place. As such, you'll only have to create one folder - slices.
+// Notice below, the reducers and actions will share the same name.
+const contactsSlice = createSlice({
+  name: 'contacts',
+  initialState,
+  reducers: {
+    getContacts: (state: ContactsState) => {
+      state.isLoading = true;
+    },
+    getContactsSuccess: (state: ContactsState, action: PayloadAction<Contact[]>) => {
+      // Mutating the state directly is usually bad but the 'immer' package, which comes with Redux Toolkit, handles this for us.
+      state.contacts = action.payload;
+      state.isLoading = false;
+      state.hasErrors = false;
+    },
+    getContactsFailure: (state) => {
+      state.isLoading = false;
+      state.hasErrors = true;
+    },
+  },
+});
+
+// Three actions generated from the slice. We don't have to define them above since they use the same names as the reducers.
+export const { getContacts, getContactsSuccess, getContactsFailure } = contactsSlice.actions;
+
+// A selector which we'll use to access the 'contacts' root state from a React component instead of using mapStateToProps (the old way).
+// Note: This is not the `contacts` property you see at the top of this file but rather the root Contacts state in index.ts. They just share the same name.
+export const contactsSelector = (state: RootState) => state.contacts;
+
+// The reducer. Again this is exposed by the 'contactsSlice' object created above. In the old Redux this was the equivalent to returning the current contacts state inside a separate `contactsReducer.ts` file.
+export default contactsSlice.reducer;
+
+// Asynchronous thunk action
+export function fetchContacts() {
+  return async (dispatch: Dispatch) => {
+    dispatch(getContacts());
+
+    try {
+      const response = await axios.get(`https://my-json-server.typicode.com/cmacdonnacha/mock-rest-endpoints/users`);
+      dispatch(getContactsSuccess(response.data));
+    } catch (error) {
+      dispatch(getContactsFailure());
+    }
+  };
+}

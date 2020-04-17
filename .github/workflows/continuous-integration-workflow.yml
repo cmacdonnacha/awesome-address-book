@@ -1,0 +1,88 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [master]
+
+## Run test, lint and build jobs in parallel to speed up the build time.
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js for use with actions
+        uses: actions/setup-node@v1.1.0
+
+      - name: Install node modules
+        run: npm ci
+
+      - name: Run tests
+        run: npm run test:no-watch
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js for use with actions
+        uses: actions/setup-node@v1.1.0
+
+      - name: Install node modules
+        run: npm ci
+
+      - name: Run linter
+        run: npm run lint
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js for use with actions
+        uses: actions/setup-node@v1.1.0
+
+      - name: Install node modules
+        run: npm ci
+
+      - name: Create production build
+        run: npm run build
+
+      # Upload the build so that we can use it later
+      - name: Upload build folder
+        uses: actions/upload-artifact@v1
+        with:
+          name: build
+          path: build
+
+  deploy:
+    name: Deploy
+    # Only deploy if these other jobs have completed successfully
+    needs: [test, lint, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Download the build folder from the earlier job and use it to deploy
+      - name: Download build folder
+        uses: actions/download-artifact@v1
+        with:
+          name: build
+
+      # Deploy to github pages
+      - name: Deploy build
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: build
