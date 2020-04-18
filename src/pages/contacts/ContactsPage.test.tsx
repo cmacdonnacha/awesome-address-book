@@ -67,7 +67,7 @@ test('should display loading text while waiting for contacts to load', async () 
   // Act
   await waitFor(() => {
     // Assert
-    expect(screen.getByText('Making contacts...')).toBeInTheDocument();
+    expect(screen.getByText('Loading contacts...')).toBeInTheDocument();
   });
 });
 

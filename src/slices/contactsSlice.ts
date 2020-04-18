@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, Dispatch } from '@reduxjs/toolkit';
 import { RootState } from '.';
 import axios from 'axios';
+import { MAX_FETCH_BATCH_SIZE } from '../constants';
 
 export interface ContactsState {
   isLoading: boolean;
@@ -38,7 +39,7 @@ const contactsSlice = createSlice({
     },
     getContactsSuccess: (state: ContactsState, action: PayloadAction<Contact[]>) => {
       // Mutating the state directly is usually bad but the 'immer' package, which comes with Redux Toolkit, handles this for us.
-      state.contacts = action.payload;
+      state.contacts = [...state.contacts, ...action.payload];
       state.isLoading = false;
       state.hasErrors = false;
     },
@@ -65,7 +66,7 @@ export function fetchContacts() {
     dispatch(getContacts());
 
     try {
-      const response = await axios.get(`https://randomuser.me/api?results=10&seed=abc`);
+      const response = await axios.get(`https://randomuser.me/api?results=${MAX_FETCH_BATCH_SIZE}`);
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const contacts: Contact[] = response.data.results.map((user: any) => {
