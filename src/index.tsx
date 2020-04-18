@@ -18,12 +18,13 @@ const theme = {
 
 const GlobalStyle = createGlobalStyle`
   html, #root {
-    height: 100%;
     background-color: ${colours.offWhite};
+    height: 100%;
   }
 
   body {
     height: 100%;
+
     margin: 0;
     font-family: 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
       'Droid Sans', 'Helvetica Neue', sans-serif;

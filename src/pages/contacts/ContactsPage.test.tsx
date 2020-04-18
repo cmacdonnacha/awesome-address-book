@@ -2,7 +2,6 @@ import React from 'react';
 import { waitFor, screen } from '@testing-library/react';
 import ContactsPage from './ContactsPage';
 import { renderWithRouterRedux } from '../../utils/test-utils';
-import { Contact } from '../../slices/contactsSlice';
 import axios from 'axios';
 
 // Mock the Axios module. This ensure we don't call a real rest api while running tests.
@@ -11,25 +10,36 @@ jest.mock('axios');
 // This line simply resolves the typescript errors caused when using jest.mock('axios').
 const axiosMock = axios as jest.Mocked<typeof axios>;
 
-const mockContacts: Contact[] = [
+const mockContacts = [
   {
-    id: 1,
-    name: 'Omar Little',
+    login: {
+      uuid: '1',
+      username: 'olittle',
+    },
+
+    name: {
+      first: 'Omar',
+      last: 'Little',
+    },
     email: 'o.little@comeattheking.com',
-    avatarUrl: 'https://i.imgur.com/eTia7Xp.jpg',
+    picture: { large: 'https://i.imgur.com/eTia7Xp.jpg' },
   },
 ];
 
 // We could use a beforeEach here but this way it's easier to keep track of what your tests are doing.
 const fetchMockContacts = () => {
   axiosMock.get.mockResolvedValueOnce({
-    data: mockContacts,
+    data: {
+      results: mockContacts,
+    },
   });
 };
 
 const fetchMockNoContacts = () => {
   axiosMock.get.mockResolvedValueOnce({
-    data: [],
+    data: {
+      results: [],
+    },
   });
 };
 

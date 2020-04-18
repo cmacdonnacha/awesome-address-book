@@ -9,10 +9,15 @@ export interface ContactsState {
 }
 
 export interface Contact {
-  id: number;
-  name: string;
+  id: string;
+  name: ContactName;
+  username: string;
   avatarUrl: string;
   email: string;
+}
+export interface ContactName {
+  first: string;
+  last: string;
 }
 
 export const initialState: ContactsState = {
@@ -60,8 +65,20 @@ export function fetchContacts() {
     dispatch(getContacts());
 
     try {
-      const response = await axios.get(`https://my-json-server.typicode.com/cmacdonnacha/mock-rest-endpoints/users`);
-      dispatch(getContactsSuccess(response.data));
+      const response = await axios.get(`https://randomuser.me/api?results=10&seed=abc`);
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const contacts: Contact[] = response.data.results.map((user: any) => {
+        return {
+          id: user.login.uuid,
+          name: user.name,
+          username: user.login.username,
+          avatarUrl: user.picture.large,
+          email: user.email,
+        };
+      });
+
+      dispatch(getContactsSuccess(contacts));
     } catch (error) {
       dispatch(getContactsFailure());
     }

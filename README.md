@@ -1,6 +1,6 @@
 <h1 align="center">📖 Awesome Address Book 📖</h1>
 <br>
-<p align="center">This projects shows a basic address book built with ReactJS 🚀</p>
+<p align="center">This project shows a basic address book built with ReactJS 🚀</p>
 
 <p align="center">
   <a>
@@ -86,7 +86,7 @@ This will run a production build and then analyze the output using [source-map-e
 
 This project uses [Github actions]([github-actions]) to continuously test, build and deploy. You can see the workflow file in the [workflows](.github/workflows/continuous-integration-workflow.yml) folder.
 
-ADD SCREENSHOT HERE
+![CI/CD Screenshot](https://i.imgur.com/JIGWB38.png)
 
 &nbsp;
 

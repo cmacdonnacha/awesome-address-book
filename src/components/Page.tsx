@@ -20,8 +20,7 @@ const Content = styled.article`
   flex: 1;
   flex-direction: column;
   background-color: white;
-  overflow-y: auto;
-  align-items: center;
+  height: 100%;
 `;
 
 interface Props {

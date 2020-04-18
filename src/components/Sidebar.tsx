@@ -18,7 +18,6 @@ const Container = styled.nav<Props>`
   background-color: ${colours.grey};
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
   min-width: 250px;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
 
