@@ -6,6 +6,7 @@ import ContactsListItem from './ContactListItem';
 import Loader from '../../components/Loader';
 import { MAX_FETCH_BATCH_SIZE, MAX_TOTAL_CONTACTS } from '../../constants';
 import Banner from '../../components/Banner';
+import SearchBar from '../../components/SearchBar';
 
 const CenteredContainer = styled.div`
   display: flex;
@@ -39,6 +40,7 @@ const ContactsList: React.FunctionComponent = () => {
   const contactsListRef = useRef<HTMLUListElement>(null);
   const dispatch = useDispatch();
   const [numContactsToDisplay, setNumContactsToDisplay] = useState(MAX_FETCH_BATCH_SIZE);
+  const [contactSearchText, setContactSearchText] = useState('');
 
   // Load the initial users
   useEffect(() => {
@@ -108,7 +110,13 @@ const ContactsList: React.FunctionComponent = () => {
       );
     }
 
-    return contacts.map((contact: Contact, index: number) => {
+    // Search for users by first or last name
+    const searchedContacts = contacts.filter((contact) => {
+      const contactFullName = `${contact.name.first} ${contact.name.last}`.toLowerCase();
+      return contactFullName.includes(contactSearchText.toLowerCase());
+    });
+
+    return searchedContacts.map((contact: Contact, index: number) => {
       // Only render the list items that we are allowed to display.
       // Otherwise, since we are pre-fetching, it would display ALL the available contacts.
       if (index >= numContactsToDisplay) {
@@ -128,7 +136,12 @@ const ContactsList: React.FunctionComponent = () => {
       <span>Contacts length: {contacts.length}</span>
       <span>Actually displayed: {contactsListRef.current?.children.length}</span>
       <span>numContactsToDisplay: {numContactsToDisplay}</span>
-
+      <SearchBar
+        placeholder={'Search...'}
+        onSearchTextChanged={(text: string) => {
+          setContactSearchText(text);
+        }}
+      />
       <List ref={contactsListRef}>
         {renderContacts()}
 
