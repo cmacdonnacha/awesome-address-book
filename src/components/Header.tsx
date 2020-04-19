@@ -33,7 +33,7 @@ const Header: React.FunctionComponent<Props> = (props: Props) => {
   return (
     <Container>
       <MenuButton isOpen={props.isSidebarOpen} onClick={props.onMenuButtonClicked} />
-      <Title>Awesome Address Book</Title>
+      <Title>{'📖 Awesome Address Book'}</Title>
     </Container>
   );
 };

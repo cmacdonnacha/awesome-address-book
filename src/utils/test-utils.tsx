@@ -6,10 +6,12 @@ import rootReducer from '../slices';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import { initialState as contactsInitialState } from '../slices/contactsSlice';
+import { initialState as settingsInitialState } from '../slices/settingsSlice';
 import { RootState } from '../slices';
 
 const rootInitialState: RootState = {
   contacts: contactsInitialState,
+  settings: settingsInitialState,
 };
 
 export function renderWithRouter(ui: JSX.Element, initialRoutes: string[]) {

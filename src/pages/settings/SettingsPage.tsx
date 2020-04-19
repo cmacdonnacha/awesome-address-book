@@ -1,19 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import Page from '../../components/Page';
+import NationalitiesSelector from './NationalitiesSelector';
 
 const Greeting = styled.p`
   display: flex;
-  flex: 1;
   background-color: white;
   justify-content: center;
-  align-items: center;
 `;
 
 const SettingsPage: React.FunctionComponent = () => {
   return (
     <Page heading="Settings">
-      <Greeting>This is the settings page</Greeting>
+      <Greeting>Select nationalities to be included in your address book:</Greeting>
+
+      <NationalitiesSelector />
     </Page>
   );
 };

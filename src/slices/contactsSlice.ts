@@ -2,6 +2,7 @@ import { createSlice, PayloadAction, Dispatch } from '@reduxjs/toolkit';
 import { RootState } from '.';
 import axios from 'axios';
 import { MAX_FETCH_BATCH_SIZE } from '../constants';
+import { selectedNationalityCodes } from './settingsSlice';
 
 export interface ContactsState {
   isLoading: boolean;
@@ -47,11 +48,14 @@ const contactsSlice = createSlice({
       state.isLoading = false;
       state.hasErrors = true;
     },
+    resetContactsList: (state) => {
+      state.contacts = [];
+    },
   },
 });
 
 // Three actions generated from the slice. We don't have to define them above since they use the same names as the reducers.
-export const { getContacts, getContactsSuccess, getContactsFailure } = contactsSlice.actions;
+export const { getContacts, getContactsSuccess, getContactsFailure, resetContactsList } = contactsSlice.actions;
 
 // A selector which we'll use to access the 'contacts' root state from a React component instead of using mapStateToProps (the old way).
 // Note: This is not the `contacts` property you see at the top of this file but rather the root Contacts state in index.ts. They just share the same name.
@@ -62,11 +66,14 @@ export default contactsSlice.reducer;
 
 // Asynchronous thunk action
 export function fetchContacts() {
-  return async (dispatch: Dispatch) => {
+  return async (dispatch: Dispatch, getState: () => RootState) => {
     dispatch(getContacts());
 
+    // Get the selected nationality codes via the selectedNationalityCodes selector
+    const selectedNationalities = selectedNationalityCodes(getState());
+
     try {
-      const response = await axios.get(`https://randomuser.me/api?results=${MAX_FETCH_BATCH_SIZE}`);
+      const response = await axios.get(`https://randomuser.me/api?results=${MAX_FETCH_BATCH_SIZE}&nat=${selectedNationalities}`);
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const contacts: Contact[] = response.data.results.map((user: any) => {
