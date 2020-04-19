@@ -6,6 +6,7 @@ import Avatar from '../../components/Avatar';
 
 interface Props {
   contact: Contact;
+  onClick?: () => void;
 }
 
 const Container = styled.div`
@@ -55,7 +56,7 @@ const ContactEmail = styled.span`
 
 const ContactListItem: React.FunctionComponent<Props> = (props: Props) => {
   return (
-    <Container>
+    <Container onClick={props.onClick}>
       <Avatar src={props.contact.avatarUrl} size={'5rem'} />
       <ContactsDetailsContainer>
         <ContactName>

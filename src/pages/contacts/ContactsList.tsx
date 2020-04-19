@@ -7,6 +7,16 @@ import Loader from '../../components/Loader';
 import { MAX_FETCH_BATCH_SIZE, MAX_TOTAL_CONTACTS } from '../../constants';
 import Banner from '../../components/Banner';
 import SearchBar from '../../components/SearchBar';
+import Modal from '../../components/Modal';
+
+const Container = styled.ul`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  list-style: none;
+  padding: 0;
+  overflow-y: auto;
+`;
 
 const CenteredContainer = styled.div`
   display: flex;
@@ -25,22 +35,14 @@ const List = styled.ul`
   overflow-y: auto;
 `;
 
-// TODO: REMOVE THIS
-const TempDiv = styled.ul`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  list-style: none;
-  padding: 0;
-  overflow-y: auto;
-`;
-
 const ContactsList: React.FunctionComponent = () => {
   const { contacts, isLoading, hasErrors } = useSelector(contactsSelector);
   const contactsListRef = useRef<HTMLUListElement>(null);
   const dispatch = useDispatch();
-  const [numContactsToDisplay, setNumContactsToDisplay] = useState(MAX_FETCH_BATCH_SIZE);
-  const [contactSearchText, setContactSearchText] = useState('');
+  const [numContactsToDisplay, setNumContactsToDisplay] = useState<number>(MAX_FETCH_BATCH_SIZE);
+  const [contactSearchText, setContactSearchText] = useState<string>('');
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
 
   // Load the initial users
   useEffect(() => {
@@ -93,6 +95,16 @@ const ContactsList: React.FunctionComponent = () => {
     return () => current.removeEventListener('scroll', handleScroll);
   }, [contactsListRef, numContactsToDisplay]);
 
+  const openModal = (contact: Contact) => {
+    setSelectedContact(contact);
+    setModalOpen(!isModalOpen);
+  };
+
+  const closeModal = () => {
+    setModalOpen(!isModalOpen);
+    setSelectedContact(null);
+  };
+
   const renderContacts = () => {
     if (isLoading && contacts.length === 0) {
       return (
@@ -125,17 +137,18 @@ const ContactsList: React.FunctionComponent = () => {
 
       return (
         <li key={contact.id}>
-          <ContactsListItem contact={contact} />
+          <ContactsListItem contact={contact} onClick={() => openModal(contact)} />
         </li>
       );
     });
   };
 
   return (
-    <TempDiv>
+    <Container>
       <span>Contacts length: {contacts.length}</span>
-      <span>Actually displayed: {contactsListRef.current?.children.length}</span>
+      <span>Actually displayed: {contactsListRef?.current?.children?.length}</span>
       <span>numContactsToDisplay: {numContactsToDisplay}</span>
+
       <SearchBar
         placeholder={'Search...'}
         onSearchTextChanged={(text: string) => {
@@ -145,14 +158,20 @@ const ContactsList: React.FunctionComponent = () => {
       <List ref={contactsListRef}>
         {renderContacts()}
 
-        {/* Display a banner tells the user we have reached the end of the list */}
+        {/* Display a banner to tell the user we have reached the end of the list */}
         {numContactsToDisplay >= MAX_TOTAL_CONTACTS && (
           <li>
             <Banner text="End of users catalog" />
           </li>
         )}
       </List>
-    </TempDiv>
+
+      <Modal isOpen={isModalOpen}>
+        {/* Using "Typescript Optional Chaining" here to check if "selectedContact" or "selectedContact.name" is null before using the "selectedContact.name.first" property*/}
+        <span>Hello {selectedContact?.name?.first}</span>
+        <button onClick={closeModal}>close modal</button>
+      </Modal>
+    </Container>
   );
 };
 
