@@ -5,7 +5,7 @@ import styled from 'styled-components';
 // This component utilizes React Portal which provides a way to render children into a DOM node that exists outside the DOM hierarchy of the parent component.
 // This makes it ideal for Modals where you want it to overlap every other child component.
 
-// 'modal-root' is a sibling to 'app-root' which exists in index.html
+// 'modal' div is a sibling to 'app' div which exists in index.html
 const modalRoot: HTMLElement = document.getElementById('modal') || document.createElement('div');
 
 interface Props {
@@ -28,6 +28,7 @@ const ModalContainer = styled.div`
 `;
 
 const ModalBody = styled.div`
+  display: flex;
   width: 50%;
   background: white;
   height: 50vh;
@@ -56,7 +57,7 @@ const Modal: React.FunctionComponent<Props> = (props: Props): any => {
     createPortal(
       // This is what gets rendered when the modal is opened
       <ModalContainer>
-        <ModalBody style={{}}>{props.children}</ModalBody>
+        <ModalBody>{props.children}</ModalBody>
       </ModalContainer>,
       targetContainer,
     )

@@ -23,6 +23,14 @@ const mockContacts = [
     },
     email: 'o.little@comeattheking.com',
     picture: { large: 'https://i.imgur.com/eTia7Xp.jpg' },
+    phone: '949 7791244',
+    cell: '7463 56555',
+    location: {
+      city: 'Baltimore',
+      street: 'East Side',
+      state: 'Maryland ',
+      postcode: 'PK 88S9',
+    },
   },
 ];
 

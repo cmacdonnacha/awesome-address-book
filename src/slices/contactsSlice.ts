@@ -16,7 +16,11 @@ export interface Contact {
   username: string;
   avatarUrl: string;
   email: string;
+  location: Location;
+  phone: string;
+  cell: string;
 }
+
 export interface ContactName {
   first: string;
   last: string;
@@ -27,6 +31,13 @@ export const initialState: ContactsState = {
   hasErrors: false,
   contacts: [],
 };
+
+export interface Location {
+  street: string;
+  city: string;
+  state: string;
+  postcode: number;
+}
 
 // Instead of dealing with reducers, actions, and all as separate files and individually creating all those action types, Redux Toolkit gives us the concept of slices.
 // A slice automatically generates reducers, action types, and action creators all in one place. As such, you'll only have to create one folder - slices.
@@ -83,6 +94,12 @@ export function fetchContacts() {
           username: user.login.username,
           avatarUrl: user.picture.large,
           email: user.email,
+          phone: user.phone,
+          cell: user.cell,
+          location: {
+            ...user.location,
+            street: user.location.street.name,
+          },
         };
       });
 

@@ -7,7 +7,7 @@ import Loader from '../../components/Loader';
 import { MAX_FETCH_BATCH_SIZE, MAX_TOTAL_CONTACTS } from '../../constants';
 import Banner from '../../components/Banner';
 import SearchBar from '../../components/SearchBar';
-import Modal from '../../components/Modal';
+import ContactDetailsModal from './ContactDetailsModal';
 
 const Container = styled.ul`
   display: flex;
@@ -166,11 +166,7 @@ const ContactsList: React.FunctionComponent = () => {
         )}
       </List>
 
-      <Modal isOpen={isModalOpen}>
-        {/* Using "Typescript Optional Chaining" here to check if "selectedContact" or "selectedContact.name" is null before using the "selectedContact.name.first" property*/}
-        <span>Hello {selectedContact?.name?.first}</span>
-        <button onClick={closeModal}>close modal</button>
-      </Modal>
+      <ContactDetailsModal isOpen={isModalOpen} onClose={closeModal} contact={selectedContact} />
     </Container>
   );
 };
