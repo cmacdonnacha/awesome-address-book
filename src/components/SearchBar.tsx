@@ -11,7 +11,7 @@ interface Props {
 const Input = styled.input`
   height: 35px;
   border-radius: 3px;
-  border: solid 2px ${colours.darkGrey};
+  border: solid 2px ${colours.darkerGrey};
   padding-left: 10px;
   margin-bottom: 20px;
 

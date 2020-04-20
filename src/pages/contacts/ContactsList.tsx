@@ -10,7 +10,7 @@ import Banner from '../../components/Banner';
 import SearchBar from '../../components/SearchBar';
 import ContactDetailsModal from './ContactDetailsModal';
 
-const Container = styled.ul`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -34,6 +34,10 @@ const List = styled.ul`
   list-style: none;
   padding: 0;
   overflow-y: auto;
+`;
+
+const ListItem = styled.li`
+  margin: 10px 20px;
 `;
 
 const ContactsList: React.FunctionComponent = () => {
@@ -138,9 +142,9 @@ const ContactsList: React.FunctionComponent = () => {
       }
 
       return (
-        <li key={contact.id}>
+        <ListItem key={contact.id}>
           <ContactsListItem contact={contact} onClick={() => openModal(contact)} />
-        </li>
+        </ListItem>
       );
     });
   };

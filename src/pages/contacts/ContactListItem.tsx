@@ -16,10 +16,15 @@ const Container = styled.div`
   align-items: center;
   text-decoration: none;
   background-color: ${colours.grey};
-  margin: 10px 0;
   min-height: 4rem;
   border-radius: 5px;
   padding: 15px 15px 15px 25px;
+  cursor: pointer;
+  box-shadow: 0 4px 11px ${colours.darkGrey}, 0 3px 3px ${colours.darkerGrey};
+
+  &:hover {
+    background-color: ${colours.darkGrey};
+  }
 `;
 
 const ContactsDetailsContainer = styled.div`
