@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
-import { Contact, contactsSelector, fetchContacts, setSearchText } from '../../slices/contactsSlice';
+import { contactsSelector, fetchContacts, setSearchText } from '../../slices/contactsSlice';
+import { Contact } from '../../models/Contact';
 import { useSelector, useDispatch } from 'react-redux';
 import ContactsListItem from './ContactListItem';
 import Loader from '../../components/Loader';

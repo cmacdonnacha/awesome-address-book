@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { Nationality } from '../../slices/settingsSlice';
+import { Nationality } from '../../models/Nationality';
 
 interface Props {
   onNationalitiesChanged: (nationalities: Nationality[]) => void;

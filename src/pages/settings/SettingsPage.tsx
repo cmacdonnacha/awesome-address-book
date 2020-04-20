@@ -4,7 +4,8 @@ import Page from '../../components/Page';
 import NationalitiesSelector from './NationalitiesSelector';
 import Button from '../../components/Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { nationalitiesSelector, Nationality, getSelectedNationalities } from '../../slices/settingsSlice';
+import { nationalitiesSelector, getSelectedNationalities } from '../../slices/settingsSlice';
+import { Nationality } from '../../models/Nationality';
 import { resetContactsList, fetchContacts } from '../../slices/contactsSlice';
 
 const SettingsInfoText = styled.p`

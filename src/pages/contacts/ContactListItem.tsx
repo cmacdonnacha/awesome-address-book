@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { Contact } from '../../slices/contactsSlice';
+import { Contact } from '../../models/Contact';
 import { colours } from '../../constants/colours';
 import Avatar from '../../components/Avatar';
 

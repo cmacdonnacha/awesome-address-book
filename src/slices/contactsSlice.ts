@@ -3,28 +3,13 @@ import { RootState } from '.';
 import axios from 'axios';
 import { MAX_FETCH_BATCH_SIZE } from '../constants';
 import { selectedNationalityCodes } from './settingsSlice';
+import { Contact } from '../models/Contact';
 
 export interface ContactsState {
   isLoading: boolean;
   hasErrors: boolean;
   contacts: Contact[];
   searchText: string;
-}
-
-export interface Contact {
-  id: string;
-  name: ContactName;
-  username: string;
-  avatarUrl: string;
-  email: string;
-  location: Location;
-  phone: string;
-  cell: string;
-}
-
-export interface ContactName {
-  first: string;
-  last: string;
 }
 
 export const initialState: ContactsState = {
@@ -34,13 +19,6 @@ export const initialState: ContactsState = {
   searchText: '',
 };
 
-export interface Location {
-  street: string;
-  city: string;
-  state: string;
-  postcode: number;
-}
-
 // Instead of dealing with reducers, actions, and all as separate files and individually creating all those action types, Redux Toolkit gives us the concept of slices.
 // A slice automatically generates reducers, action types, and action creators all in one place. As such, you'll only have to create one folder - slices.
 // Notice below, the reducers and actions will share the same name.
@@ -48,23 +26,23 @@ const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
   reducers: {
-    getContacts: (state: ContactsState) => {
+    getContacts: (state) => {
       state.isLoading = true;
     },
-    getContactsSuccess: (state: ContactsState, action: PayloadAction<Contact[]>) => {
+    getContactsSuccess: (state, action: PayloadAction<Contact[]>) => {
       // Mutating the state directly is usually bad but the 'immer' package, which comes with Redux Toolkit, handles this for us.
       state.contacts = [...state.contacts, ...action.payload];
       state.isLoading = false;
       state.hasErrors = false;
     },
-    getContactsFailure: (state: ContactsState) => {
+    getContactsFailure: (state) => {
       state.isLoading = false;
       state.hasErrors = true;
     },
-    resetContactsList: (state: ContactsState) => {
+    resetContactsList: (state) => {
       state.contacts = [];
     },
-    setSearchText: (state: ContactsState, action: PayloadAction<string>) => {
+    setSearchText: (state, action: PayloadAction<string>) => {
       state.searchText = action.payload;
     },
   },
