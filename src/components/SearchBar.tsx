@@ -15,8 +15,6 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props) => {
 
   const onTextChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
-
-    // if (!props) {
     props.onSearchTextChanged(e.target.value.trim());
   };
 

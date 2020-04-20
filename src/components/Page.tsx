@@ -10,7 +10,7 @@ const Container = styled.section`
   padding: 20px;
 
   & h1 {
-    margin: 0;
+    margin: 0 0 20px 0;
     color: ${colours.navy};
   }
 `;
@@ -25,7 +25,7 @@ const Content = styled.article`
 
 interface Props {
   heading: string;
-  children?: React.ReactElement | React.ReactElement[];
+  children?: React.ReactNode;
 }
 
 const Page: React.FunctionComponent<Props> = (props: Props) => {

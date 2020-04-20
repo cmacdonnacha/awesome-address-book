@@ -46,8 +46,10 @@ const ContactsList: React.FunctionComponent = () => {
 
   // Load the initial users
   useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
+    if (contacts.length === 0) {
+      dispatch(fetchContacts());
+    }
+  }, [dispatch, contacts.length]);
 
   useEffect(() => {
     // Don't fetch any more users if we've already reached the max allowed.
