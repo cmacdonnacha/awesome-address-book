@@ -8,6 +8,7 @@ export interface ContactsState {
   isLoading: boolean;
   hasErrors: boolean;
   contacts: Contact[];
+  searchText: string;
 }
 
 export interface Contact {
@@ -30,6 +31,7 @@ export const initialState: ContactsState = {
   isLoading: false,
   hasErrors: false,
   contacts: [],
+  searchText: '',
 };
 
 export interface Location {
@@ -55,18 +57,21 @@ const contactsSlice = createSlice({
       state.isLoading = false;
       state.hasErrors = false;
     },
-    getContactsFailure: (state) => {
+    getContactsFailure: (state: ContactsState) => {
       state.isLoading = false;
       state.hasErrors = true;
     },
-    resetContactsList: (state) => {
+    resetContactsList: (state: ContactsState) => {
       state.contacts = [];
+    },
+    setSearchText: (state: ContactsState, action: PayloadAction<string>) => {
+      state.searchText = action.payload;
     },
   },
 });
 
 // Three actions generated from the slice. We don't have to define them above since they use the same names as the reducers.
-export const { getContacts, getContactsSuccess, getContactsFailure, resetContactsList } = contactsSlice.actions;
+export const { getContacts, getContactsSuccess, getContactsFailure, resetContactsList, setSearchText } = contactsSlice.actions;
 
 // A selector which we'll use to access the 'contacts' root state from a React component instead of using mapStateToProps (the old way).
 // Note: This is not the `contacts` property you see at the top of this file but rather the root Contacts state in index.ts. They just share the same name.

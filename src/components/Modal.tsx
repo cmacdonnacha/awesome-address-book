@@ -16,6 +16,7 @@ interface Props {
 }
 
 const ModalContainer = styled.div`
+  border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,6 +29,7 @@ const ModalContainer = styled.div`
 `;
 
 const ModalBody = styled.div`
+  border-radius: 8px;
   display: flex;
   width: calc(100% - 64px);
   max-width: 450px;

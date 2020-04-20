@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
-import { Contact, contactsSelector, fetchContacts } from '../../slices/contactsSlice';
+import { Contact, contactsSelector, fetchContacts, setSearchText } from '../../slices/contactsSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import ContactsListItem from './ContactListItem';
 import Loader from '../../components/Loader';
@@ -36,11 +36,10 @@ const List = styled.ul`
 `;
 
 const ContactsList: React.FunctionComponent = () => {
-  const { contacts, isLoading, hasErrors } = useSelector(contactsSelector);
+  const { contacts, isLoading, hasErrors, searchText } = useSelector(contactsSelector);
   const contactsListRef = useRef<HTMLUListElement>(null);
   const dispatch = useDispatch();
   const [numContactsToDisplay, setNumContactsToDisplay] = useState<number>(MAX_FETCH_BATCH_SIZE);
-  const [contactSearchText, setContactSearchText] = useState<string>('');
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
 
@@ -127,7 +126,7 @@ const ContactsList: React.FunctionComponent = () => {
     // Search for users by first or last name
     const searchedContacts = contacts.filter((contact) => {
       const contactFullName = `${contact.name.first} ${contact.name.last}`.toLowerCase();
-      return contactFullName.includes(contactSearchText.toLowerCase());
+      return contactFullName.includes(searchText.toLowerCase());
     });
 
     return searchedContacts.map((contact: Contact, index: number) => {
@@ -145,18 +144,14 @@ const ContactsList: React.FunctionComponent = () => {
     });
   };
 
+  // Update the state every time the search text change. This allows us to persist the search when the user flicks between routes.
+  const onSearchTextChanged = (text: string) => {
+    dispatch(setSearchText(text));
+  };
+
   return (
     <Container>
-      <span>Contacts length: {contacts.length}</span>
-      <span>Actually displayed: {contactsListRef?.current?.children?.length}</span>
-      <span>numContactsToDisplay: {numContactsToDisplay}</span>
-
-      <SearchBar
-        placeholder={'Search...'}
-        onSearchTextChanged={(text: string) => {
-          setContactSearchText(text);
-        }}
-      />
+      <SearchBar value={searchText} placeholder={'Search...'} onSearchTextChanged={onSearchTextChanged} />
       <List ref={contactsListRef}>
         {renderContacts()}
 

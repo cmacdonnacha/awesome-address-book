@@ -14,11 +14,12 @@ interface Props {
   onClose: () => void;
 }
 
-const ContactDetailsContainer = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
   background-color: white;
+  border-radius: 6px;
 `;
 
 const Header = styled.header`
@@ -30,6 +31,7 @@ const Header = styled.header`
   align-items: center;
   justify-content: center;
   padding: 10px;
+  border-radius: 5px 5px 0 0;
 `;
 
 const ContactName = styled.span`
@@ -55,6 +57,7 @@ const Footer = styled.footer`
   flex: 1;
   background-color: ${colours.white};
   justify-content: center;
+  border-radius: 0 0 5px 5px;
 `;
 
 const AddressGridContainer = styled.section`
@@ -88,7 +91,7 @@ const ContactDetailsModal: React.FunctionComponent<Props> = (props: Props) => {
 
   return (
     <Modal isOpen={props.isOpen}>
-      <ContactDetailsContainer>
+      <Container>
         <Header>
           <Avatar src={props.contact.avatarUrl} size={'7rem'} />
           <ContactName>
@@ -117,7 +120,7 @@ const ContactDetailsModal: React.FunctionComponent<Props> = (props: Props) => {
             Close
           </Button>
         </Footer>
-      </ContactDetailsContainer>
+      </Container>
     </Modal>
   );
 };
