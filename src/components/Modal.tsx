@@ -29,7 +29,8 @@ const ModalContainer = styled.div`
 
 const ModalBody = styled.div`
   display: flex;
-  width: 50%;
+  width: calc(100% - 64px);
+  max-width: 450px;
   background: white;
   height: 50vh;
   text-align: center;

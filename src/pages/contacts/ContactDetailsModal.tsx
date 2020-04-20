@@ -90,7 +90,7 @@ const ContactDetailsModal: React.FunctionComponent<Props> = (props: Props) => {
     <Modal isOpen={props.isOpen}>
       <ContactDetailsContainer>
         <Header>
-          <Avatar src={props.contact.avatarUrl} size={'6rem'} />
+          <Avatar src={props.contact.avatarUrl} size={'7rem'} />
           <ContactName>
             {props.contact.name.first} {props.contact.name.last}
           </ContactName>
