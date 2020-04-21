@@ -1,6 +1,6 @@
 <h1 align="center">📖 Awesome Address Book 📖</h1>
 <br>
-<p align="center">This project shows a basic address book built with ReactJS 🚀</p>
+<p align="center">This project shows a basic address book built with ReactJS, Redux Toolkit and Typescript 🚀</p>
 
 <p align="center">
   <a>
@@ -29,8 +29,7 @@
 
 ## Features
 
-- Contacts search
-- Infinite scrolling
+- Contacts search with infinite scrolling
 - Nationalities selection
 - Accessability compliant
 - Integration tests
@@ -122,16 +121,4 @@ Licensed under the MIT license.
 [github-actions]: https://github.com/cmacdonnacha/awesome-address-book/actions
 [styled-icons]: https://styled-icons.js.org/
 [react-router]: https://reacttraining.com/react-router/web/guides/quick-start
-[vs-code-my-typescript-react-snippets]: https://gist.github.com/cmacdonnacha/334ef14cb301c426ee6eb166eb500a5a
-[vs-code-my-settings]: https://gist.github.com/cmacdonnacha/b6360f349c1a86aafda28f6d44c9d215
-[vs-code-typescript-react-snippets]: https://github.com/infeng/vscode-react-typescript#readme
-[vscode-extension-prettier]: https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
-[vscode-extension-auto-rename-tag]: https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-rename-tag
-[vscode-extension-spell-checker]: https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker
-[vscode-extension-eslint]: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
-[vscode-extension-git-lens]: https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens
-[vscode-extension-styled-components]: https://marketplace.visualstudio.com/items?itemName=jpoissonnier.vscode-styled-components
-[chrome-extension-axe]: https://chrome.google.com/webstore/detail/axe-web-accessibility-tes/lhdoppojpmngadmnindnejefpokejbdd
-[chrome-extension-wave]: https://chrome.google.com/webstore/detail/wave-evaluation-tool/jbbplnpkjmmeebjpijfedlgcdilocofh
-[chrome-extension-redux-devtools]: https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd
 <!-- prettier-ignore-end -->
