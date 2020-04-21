@@ -23,7 +23,6 @@ interface Props {
  */
 const Container = styled.div`
   display: flex;
-  flex: 1;
   background-color: white;
 `;
 

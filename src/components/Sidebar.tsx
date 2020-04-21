@@ -101,7 +101,7 @@ const Sidebar: React.FunctionComponent<Props> = (props: Props) => {
   return (
     <Container isSidebarOpen={props.isSidebarOpen}>
       <ProfileContainer>
-        <Avatar src={userProfile} size={'6rem'} />
+        <Avatar alt={'User Profile Image'} src={userProfile} size={'6rem'} />
         <Username>Cathal Mac Donnacha</Username>
       </ProfileContainer>
       <SidebarList>

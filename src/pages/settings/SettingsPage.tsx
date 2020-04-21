@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { nationalitiesSelector, getSelectedNationalities } from '../../slices/settingsSlice';
 import { Nationality } from '../../models/Nationality';
 import { resetContactsList, fetchContacts } from '../../slices/contactsSlice';
+import { screenSize } from '../../constants/screenSizes';
 
 /**
  * Styled Components
@@ -24,9 +25,26 @@ const SettingsInfoText = styled.p`
 `;
 
 const SettingsSavedMessage = styled.span`
-  text-align: center;
+  margin-top: 10px;
+  text-align: left;
   font-size: 1.5rem;
-  margin-bottom: 20px;
+  font-weight: bold;
+  margin: 40px 0 0 10px;
+`;
+
+const Footer = styled.footer`
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  max-height: 50px;
+
+  & button {
+    flex: 1;
+  }
+
+  @media (min-width: ${screenSize.medium}) {
+    max-width: 120px;
+  }
 `;
 
 const SettingsPage: React.FunctionComponent = () => {
@@ -57,10 +75,12 @@ const SettingsPage: React.FunctionComponent = () => {
     <Page heading="Settings">
       <SettingsInfoText>Select nationalities to be included in your address book:</SettingsInfoText>
       <NationalitiesSelector nationalities={nationalities} onNationalitiesChanged={onNationalitiesChanged} />
+      <Footer>
+        <Button onClick={saveSettings} size={40}>
+          Save
+        </Button>
+      </Footer>
       {showSettingsSavedMessage && <SettingsSavedMessage>{'Settings saved! 👌'}</SettingsSavedMessage>}
-      <Button onClick={saveSettings} size={50}>
-        Save
-      </Button>
     </Page>
   );
 };

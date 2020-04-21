@@ -76,7 +76,7 @@ const ContactEmail = styled.span`
 const ContactListItem: React.FunctionComponent<Props> = (props: Props) => {
   return (
     <Container onClick={props.onClick}>
-      <Avatar src={props.contact.avatarUrl} size={'5rem'} />
+      <Avatar alt="Contact Avatar" src={props.contact.avatarUrl} size={'5rem'} />
       <ContactsDetailsContainer>
         <ContactName>
           {props.contact.name.first} {props.contact.name.last}
