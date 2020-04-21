@@ -5,6 +5,7 @@ import { colours } from '../constants/colours';
 interface Props {
   placeholder?: string;
   value?: string;
+  ariaLabel?: string;
   onSearchTextChanged: (text: string) => void;
 }
 
@@ -29,7 +30,7 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props) => {
     props.onSearchTextChanged(e.target.value.trim());
   };
 
-  return <Input value={inputText} onChange={onTextChanged} placeholder={props.placeholder}></Input>;
+  return <Input value={inputText} onChange={onTextChanged} placeholder={props.placeholder} aria-label={props.ariaLabel}></Input>;
 };
 
 export default SearchBar;

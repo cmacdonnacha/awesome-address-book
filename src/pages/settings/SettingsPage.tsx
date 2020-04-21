@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Page from '../../components/Page';
 import NationalitiesSelector from './NationalitiesSelector';
@@ -24,15 +24,6 @@ const SettingsPage: React.FunctionComponent = () => {
   const [nationalities, setNationalities] = useState<Nationality[]>(defaultNationalities);
   const [showSettingsSavedMessage, setShowSettingsSavedMessage] = useState<boolean>(false);
 
-  useEffect(() => {
-    const savedMessageTimer = window.setTimeout(() => {
-      setShowSettingsSavedMessage(false);
-    }, 2000);
-
-    // Clean up the timeout in case the component is unmounted before the timer is up.
-    return () => window.clearTimeout(savedMessageTimer);
-  }, []);
-
   const saveSettings = () => {
     // Dispatch an action to update the nationalities in the redux store
     dispatch(getSelectedNationalities(nationalities));
@@ -41,13 +32,14 @@ const SettingsPage: React.FunctionComponent = () => {
     dispatch(resetContactsList());
     dispatch(fetchContacts());
 
-    // Show "Settings Saved" message and hide it 2 seconds later to give the user instant feedback
+    // Show "Settings Saved" message
     setShowSettingsSavedMessage(true);
   };
 
   const onNationalitiesChanged = (updatedNationalities: Nationality[]) => {
     // Update local state
     setNationalities([...updatedNationalities]);
+    setShowSettingsSavedMessage(false);
   };
 
   return (

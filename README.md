@@ -14,9 +14,10 @@
   </a>
 </p>
 
-## Features
+## Includes
 
 - [Redux Toolkit][redux-toolkit]
+- [React Router][react-router]
 - [Typescript][typescript]
 - [Jest][jest]
 - [React Testing Library][react-testing-library]
@@ -25,9 +26,16 @@
 - [Github Actions CI/CD][github-actions]
 - [Styled Icons Pack][styled-icons]
 - [Source Map Explorer][source-map-explorer] to analyze code bloat
-- Mobile friendly
-- Unit & Integration test examples
-- Accessability ready
+
+## Features
+
+- Contacts search
+- Infinite scrolling
+- Nationalities selection
+- Accessability compliant
+- Integration tests
+- Popup modal to display contact details
+- Sidebar navigation
 
 &nbsp;
 
@@ -96,11 +104,6 @@ Licensed under the MIT license.
 
 &nbsp;
 
-## TODO
-
-- Automatically bump version, git tag and perform release via github actions
-- When [this PR](https://github.com/facebook/create-react-app/pull/8362) is merged, change `"test": "react-scripts test --env=jest-environment-jsdom-sixteen"` back to `"test": "react-scripts test"`. This is a temp alternative, see [this](https://github.com/testing-library/dom-testing-library/releases/tag/v7.0.0). Change `test:no-watch` as well.
-
 <!-- prettier-ignore-start -->
 [npm]: https://www.npmjs.com/
 [node]: https://nodejs.org
@@ -118,6 +121,7 @@ Licensed under the MIT license.
 [prettier]: https://prettier.io/docs/en/index.html
 [github-actions]: https://github.com/cmacdonnacha/awesome-address-book/actions
 [styled-icons]: https://styled-icons.js.org/
+[react-router]: https://reacttraining.com/react-router/web/guides/quick-start
 [vs-code-my-typescript-react-snippets]: https://gist.github.com/cmacdonnacha/334ef14cb301c426ee6eb166eb500a5a
 [vs-code-my-settings]: https://gist.github.com/cmacdonnacha/b6360f349c1a86aafda28f6d44c9d215
 [vs-code-typescript-react-snippets]: https://github.com/infeng/vscode-react-typescript#readme

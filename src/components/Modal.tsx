@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
 // This component utilizes React Portal which provides a way to render children into a DOM node that exists outside the DOM hierarchy of the parent component.
+// A typical use case for portals is when a parent component has an overflow: hidden or z-index style, but you need the child to visually "break out2 of its container.
 // This makes it ideal for Modals where you want it to overlap every other child component.
 
 // 'modal' div is a sibling to 'app' div which exists in index.html

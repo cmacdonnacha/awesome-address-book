@@ -156,7 +156,7 @@ const ContactsList: React.FunctionComponent = () => {
 
   return (
     <Container>
-      <SearchBar value={searchText} placeholder={'Search...'} onSearchTextChanged={onSearchTextChanged} />
+      <SearchBar value={searchText} placeholder={'Search...'} onSearchTextChanged={onSearchTextChanged} ariaLabel={'Search for contacts'} />
       <List ref={contactsListRef}>
         {renderContacts()}
 

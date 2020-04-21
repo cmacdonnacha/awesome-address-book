@@ -1,5 +1,5 @@
 import React from 'react';
-import { waitFor, screen } from '@testing-library/react';
+import { waitFor, screen, fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
 import ContactsPage from './ContactsPage';
 import { renderWithRouterRedux } from '../../utils/test-utils';
 import axios from 'axios';
@@ -16,7 +16,6 @@ const mockContacts = [
       uuid: '1',
       username: 'olittle',
     },
-
     name: {
       first: 'Omar',
       last: 'Little',
@@ -30,6 +29,26 @@ const mockContacts = [
       street: 'East Side',
       state: 'Maryland ',
       postcode: 'PK 88S9',
+    },
+  },
+  {
+    login: {
+      uuid: '2',
+      username: 'jmcnulty',
+    },
+    name: {
+      first: 'Jimmy',
+      last: ' McNulty',
+    },
+    email: 'j.mcnulty@whatdidido.com',
+    picture: { large: 'https://i.imgur.com/7mgyfIC.png' },
+    phone: '882 910858',
+    cell: '104 1020818',
+    location: {
+      city: 'Limerick',
+      street: 'Glin Castle',
+      state: 'Glin ',
+      postcode: 'V94 VF68',
     },
   },
 ];
@@ -54,52 +73,109 @@ const fetchMockNoContacts = () => {
 // Give each test a clean slate.
 beforeEach(() => axiosMock.get.mockReset());
 
-test('should find a contact within the list', async () => {
-  // Arrange
-  fetchMockContacts();
-  renderWithRouterRedux(<ContactsPage />, ['/']);
+describe('Fetching Contacts', () => {
+  test('should find a contact within the list', async () => {
+    // Arrange
+    fetchMockContacts();
+    renderWithRouterRedux(<ContactsPage />, ['/']);
 
-  // Act
-  const element = await waitFor(() => screen.getByText('Omar Little'));
+    // Act
+    const element = await waitFor(() => screen.getByText('Omar Little'));
 
-  // Assert
-  expect(axiosMock.get).toHaveBeenCalledTimes(1);
-  expect(element).toBeInTheDocument();
-});
-
-test('should display loading text while waiting for contacts to load', async () => {
-  // Arrange
-  fetchMockContacts();
-  renderWithRouterRedux(<ContactsPage />, ['/']);
-
-  // Act
-  await waitFor(() => {
     // Assert
-    expect(screen.getByText('Loading contacts...')).toBeInTheDocument();
+    expect(axiosMock.get).toHaveBeenCalledTimes(1);
+    expect(element).toBeInTheDocument();
+  });
+
+  test('should display loading text while waiting for contacts to load', async () => {
+    // Arrange
+    fetchMockContacts();
+    renderWithRouterRedux(<ContactsPage />, ['/']);
+
+    // Act
+    await waitFor(() => {
+      // Assert
+      expect(screen.getByText('Loading contacts...')).toBeInTheDocument();
+    });
+  });
+
+  test('should display error message when no contacts found', async () => {
+    // Arrange
+    fetchMockNoContacts();
+    renderWithRouterRedux(<ContactsPage />, ['/']);
+
+    // Act
+    const element = await waitFor(() => screen.getByText("Couldn't find contacts", { exact: false }));
+
+    // Assert
+    expect(axiosMock.get).toHaveBeenCalledTimes(1);
+    expect(element).toBeInTheDocument();
+  });
+
+  test('should display error message when an error occurs while fetching contacts', async () => {
+    // Arrange
+    renderWithRouterRedux(<ContactsPage />, ['/']);
+
+    // Act
+    const element = await waitFor(() => screen.getByText("Couldn't find contacts", { exact: false }));
+    // Assert
+    expect(axiosMock.get).toHaveBeenCalledTimes(1);
+    expect(element).toBeInTheDocument();
   });
 });
 
-test('should display error message when no contacts found', async () => {
-  // Arrange
-  fetchMockNoContacts();
-  renderWithRouterRedux(<ContactsPage />, ['/']);
+describe('Searching Contacts', () => {
+  test('should have empty search input by default', () => {
+    // Arrange
+    renderWithRouterRedux(<ContactsPage />, ['/']);
 
-  // Act
-  const element = await waitFor(() => screen.getByText("Couldn't find contacts", { exact: false }));
+    // Act
+    const searchInput = screen.getByLabelText('Search for contacts') as HTMLInputElement;
 
-  // Assert
-  expect(axiosMock.get).toHaveBeenCalledTimes(1);
-  expect(element).toBeInTheDocument();
-});
+    // Assert
+    expect(searchInput.value).toBe('');
+  });
 
-test('should display error message when an error occurs while fetching contacts', async () => {
-  // Arrange
-  renderWithRouterRedux(<ContactsPage />, ['/']);
+  test('should display correct search results', async () => {
+    // Arrange
+    fetchMockContacts();
+    renderWithRouterRedux(<ContactsPage />, ['/']);
 
-  // Act
-  const element = await waitFor(() => screen.getByText("Couldn't find contacts", { exact: false }));
+    // Arrange
+    // Wait for loading text to disappear so we know the mocked contacts have been fetched and displayed
+    await waitForElementToBeRemoved(() => screen.queryByText('Loading contacts', { exact: false }));
 
-  // Assert
-  expect(axiosMock.get).toHaveBeenCalledTimes(1);
-  expect(element).toBeInTheDocument();
+    // Type in some search text
+    const searchInput = screen.getByLabelText('Search for contacts') as HTMLInputElement;
+    fireEvent.change(searchInput, { target: { value: 'Jimmy' } });
+
+    // Assert
+    expect(screen.getByText('Jimmy McNulty')).toBeInTheDocument();
+    expect(screen.queryByText('Omar Little')).not.toBeInTheDocument();
+  });
+
+  test('should clear search results correctly', async () => {
+    // Arrange
+    fetchMockContacts();
+    renderWithRouterRedux(<ContactsPage />, ['/']);
+
+    // Arrange
+    // Wait for loading text to disappear so we know the mocked contacts have been fetched and displayed
+    await waitForElementToBeRemoved(() => screen.queryByText('Loading contacts', { exact: false }));
+
+    // Type in some search text
+    const searchInput = screen.getByLabelText('Search for contacts') as HTMLInputElement;
+    fireEvent.change(searchInput, { target: { value: 'Jimmy' } });
+
+    // Assert
+    expect(screen.getByText('Jimmy McNulty')).toBeInTheDocument();
+    expect(screen.queryByText('Omar Little')).not.toBeInTheDocument();
+
+    // Clear search text
+    fireEvent.change(searchInput, { target: { value: '' } });
+
+    // Should now display all contacts again
+    expect(screen.getByText('Jimmy McNulty')).toBeInTheDocument();
+    expect(screen.getByText('Omar Little')).toBeInTheDocument();
+  });
 });
