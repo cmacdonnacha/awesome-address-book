@@ -18,6 +18,7 @@ jobs:
         uses: actions/setup-node@v1.1.0
         with:
           node-version: '12.x'
+          version: '12.x'
 
       - name: Install node modules
         run: npm ci
