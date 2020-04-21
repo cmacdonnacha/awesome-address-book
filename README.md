@@ -27,6 +27,8 @@
 - [Styled Icons Pack][styled-icons]
 - [Source Map Explorer][source-map-explorer] to analyze code bloat
 
+&nbsp;
+
 ## Features
 
 - Contacts search with infinite scrolling
