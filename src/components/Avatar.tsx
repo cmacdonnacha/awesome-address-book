@@ -1,3 +1,12 @@
+/**
+ * @component
+ *
+ * Displays an image as a rounded avatar.
+ *
+ * @param {string} src The source of the image to load
+ * @param {string} size The height and width of the avatar. Set to 2rem by default.
+ *
+ */
 import React from 'react';
 import styled from 'styled-components/macro';
 
@@ -6,6 +15,11 @@ interface Props {
   size?: string;
 }
 
+/**
+ * Styled Components
+ *
+ * See https://styled-components.com/
+ */
 const Image = styled.img<Props>`
   border-radius: 50%;
   height: ${(props) => props.size};

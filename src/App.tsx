@@ -1,3 +1,9 @@
+/**
+ * @component
+ *
+ * This main app component which handles the core layout.
+ *
+ */
 import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 import Sidebar from './components/Sidebar';

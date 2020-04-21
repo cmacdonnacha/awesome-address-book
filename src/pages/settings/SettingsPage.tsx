@@ -1,3 +1,9 @@
+/**
+ * @component
+ *
+ * This component displays the Settings page route
+ *
+ */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Page from '../../components/Page';
@@ -8,6 +14,11 @@ import { nationalitiesSelector, getSelectedNationalities } from '../../slices/se
 import { Nationality } from '../../models/Nationality';
 import { resetContactsList, fetchContacts } from '../../slices/contactsSlice';
 
+/**
+ * Styled Components
+ *
+ * See https://styled-components.com/
+ */
 const SettingsInfoText = styled.p`
   display: flex;
 `;

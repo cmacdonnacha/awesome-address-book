@@ -1,21 +1,33 @@
+/**
+ * @component
+ *
+ * A generic popup modal
+ *
+ * This component utilizes React Portal which provides a way to render children into a DOM node that exists outside the DOM hierarchy of the parent component.
+ * A typical use case for portals is when a parent component has an overflow: hidden or z-index style, but you need the child to visually "break out2 of its container.
+ * This makes it ideal for Modals where you want it to overlap every other child component.
+ *
+ * @param {boolean} isOpen Tells us if the modal is open
+ * @param {ReactNode} children Children inside the modal
+ *
+ */
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
-
-// This component utilizes React Portal which provides a way to render children into a DOM node that exists outside the DOM hierarchy of the parent component.
-// A typical use case for portals is when a parent component has an overflow: hidden or z-index style, but you need the child to visually "break out2 of its container.
-// This makes it ideal for Modals where you want it to overlap every other child component.
 
 // 'modal' div is a sibling to 'app' div which exists in index.html
 const modalRoot: HTMLElement = document.getElementById('modal') || document.createElement('div');
 
 interface Props {
   isOpen: boolean;
-  // Typescript doesn't seem to play nicely with React Portal types
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  children: any;
+  children: React.ReactNode;
 }
 
+/**
+ * Styled Components
+ *
+ * See https://styled-components.com/
+ */
 const ModalContainer = styled.div`
   border-radius: 8px;
   display: flex;
@@ -46,10 +58,10 @@ const Modal: React.FunctionComponent<Props> = (props: Props): any => {
 
   useEffect(() => {
     if (modalRoot) {
-      // append to root when the children of Modal are mounted
+      // Append to root when the children of Modal are mounted
       modalRoot.appendChild(targetContainer);
 
-      // do a cleanup
+      // Do a cleanup
       return () => {
         modalRoot.removeChild(targetContainer);
       };

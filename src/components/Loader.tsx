@@ -1,3 +1,11 @@
+/**
+ * @component
+ *
+ * A loader which is used to give the user some feedback on current progress.
+ *
+ * @param {string} text Loading text to display
+ *
+ */
 import React from 'react';
 import styled from 'styled-components/macro';
 import { colours } from '../constants/colours';
@@ -6,6 +14,11 @@ interface Props {
   text?: string;
 }
 
+/**
+ * Styled Components
+ *
+ * See https://styled-components.com/
+ */
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -61,10 +74,8 @@ const Dot = styled.span`
   }
 `;
 
-const Text = styled.span``;
-
 const Loader: React.FunctionComponent<Props> = (props: Props) => {
-  const textElement = props.text ? <Text>{props.text}</Text> : null;
+  const textElement = props.text ? <span>{props.text}</span> : null;
 
   return (
     <Container>

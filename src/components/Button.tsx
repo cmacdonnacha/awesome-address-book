@@ -1,14 +1,28 @@
+/**
+ * @component
+ *
+ * A generic button
+ *
+ * @param {number} size The height of the button
+ * @param {ReactNode} children The children of this button. Usually the text to be display.
+ * @param {callback} onClick Fires when the button is clicked
+ *
+ */
 import React from 'react';
 import styled from 'styled-components/macro';
 import { colours } from '../constants/colours';
 
 interface Props {
-  label?: string;
   size?: number;
   children?: React.ReactNode;
   onClick: () => void;
 }
 
+/**
+ * Styled Components
+ *
+ * See https://styled-components.com/
+ */
 const Container = styled.button<Props>`
   font-size: 1rem;
   margin: 10px;

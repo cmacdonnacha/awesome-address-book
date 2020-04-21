@@ -1,3 +1,9 @@
+/**
+ * @component
+ *
+ * Displays contacts in a scrollable, infinite list.
+ *
+ */
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
 import { contactsSelector, fetchContacts, setSearchText } from '../../slices/contactsSlice';
@@ -10,6 +16,11 @@ import Banner from '../../components/Banner';
 import SearchBar from '../../components/SearchBar';
 import ContactDetailsModal from './ContactDetailsModal';
 
+/**
+ * Styled Components
+ *
+ * See https://styled-components.com/
+ */
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -41,14 +52,18 @@ const ListItem = styled.li`
 `;
 
 const ContactsList: React.FunctionComponent = () => {
-  const { contacts, isLoading, hasErrors, searchText } = useSelector(contactsSelector);
-  const contactsListRef = useRef<HTMLUListElement>(null);
   const dispatch = useDispatch();
   const [numContactsToDisplay, setNumContactsToDisplay] = useState<number>(MAX_FETCH_BATCH_SIZE);
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
 
-  // Load the initial users
+  // Use object destructuring to get what we need from the contacts state.
+  const { contacts, isLoading, hasErrors, searchText } = useSelector(contactsSelector);
+
+  // A reference to the contacts list element so we can use it to attach a scroll event handler.
+  const contactsListRef = useRef<HTMLUListElement>(null);
+
+  // Load the initial users but only if we don't already have any.
   useEffect(() => {
     if (contacts.length === 0) {
       dispatch(fetchContacts());
@@ -61,24 +76,33 @@ const ContactsList: React.FunctionComponent = () => {
       return;
     }
 
-    // We always want to pre-fetch more contacts to give a better user experience.
-    // numContactsToDisplay is updated each time the user scrolls to bottom, this will
-    // dispatch fetchContacts() meaning 'contacts.length' will always be greater than numContactsToDisplay
-    // until we have reached the MAX_TOTAL_CONTACTS.
-    // For example we may have 100 contacts but only displaying 50. When the user scrolls to bottom we can then quickly display 100 and fetch more.
+    /**
+     * We always want to pre-fetch more contacts to give a better user experience.
+     * numContactsToDisplay is updated each time the user scrolls to bottom, this will
+     * dispatch fetchContacts() meaning 'contacts.length' will always be greater than
+     * numContactsToDisplay until we have reached the MAX_TOTAL_CONTACTS.
+     *
+     * For example we may have 100 contacts but only displaying 50. When the user scrolls to bottom we can then quickly display 100 and fetch more.
+     *
+     * You will notice the fetchContacts() will be initially fired twice, once to fetch and display the first 50 contacts, and once more to pre-fetch the next batch of 50.
+     */
     if (contacts.length === numContactsToDisplay) {
       dispatch(fetchContacts());
     }
   }, [dispatch, contacts.length, numContactsToDisplay]);
 
-  // Handles the scroll updates
+  // Handles the scroll updates inside a useEffect
   useEffect(() => {
-    // A reference to the contacts list
+    // A reference to the contacts list so we can use it to attach a scroll event handler.
     const { current } = contactsListRef;
+
     if (!current) {
       return;
     }
 
+    /**
+     * Tracks the current scroll position so that we can detect if the user has scrolled to bottom.
+     */
     const handleScroll = () => {
       // Check if the user has scrolled to the bottom
       if (current.offsetHeight + current.scrollTop !== current.scrollHeight) {
@@ -101,17 +125,32 @@ const ContactsList: React.FunctionComponent = () => {
     return () => current.removeEventListener('scroll', handleScroll);
   }, [contactsListRef, numContactsToDisplay]);
 
+  /**
+   * Opens the contact details modal
+   *
+   * @param {Contact} contact A contact object
+   */
   const openModal = (contact: Contact) => {
     setSelectedContact(contact);
     setModalOpen(!isModalOpen);
   };
 
+  /**
+   * Opens the contact details modal
+   */
   const closeModal = () => {
     setModalOpen(!isModalOpen);
     setSelectedContact(null);
   };
 
+  /**
+   * Renders the appropriate component depending on the state of the app.
+   */
   const renderContacts = () => {
+    /**
+     * Contacts list is loading so display a friendly message to the user.
+     * Only do this if contacts.length === 0, otherwise it will be displayed when we pre-fetch contacts.
+     */
     if (isLoading && contacts.length === 0) {
       return (
         <CenteredContainer>
@@ -120,6 +159,10 @@ const ContactsList: React.FunctionComponent = () => {
       );
     }
 
+    /**
+     * Display a friendly error message to the user if something went wrong during the contacts fetch or
+     * loading has finished but no contacts were returned.
+     */
     if (hasErrors || (!isLoading && contacts.length === 0)) {
       return (
         <CenteredContainer>
@@ -128,19 +171,33 @@ const ContactsList: React.FunctionComponent = () => {
       );
     }
 
-    // Search for users by first or last name
+    /**
+     * If search text has been entered then filter them.
+     * User can search by first name, last name or both.
+     */
     const searchedContacts = contacts.filter((contact) => {
       const contactFullName = `${contact.name.first} ${contact.name.last}`.toLowerCase();
       return contactFullName.includes(searchText.toLowerCase());
     });
 
+    /**
+     * Finally iterate through each contact and display them as list items.
+     */
     return searchedContacts.map((contact: Contact, index: number) => {
-      // Only render the list items that we are allowed to display.
-      // Otherwise, since we are pre-fetching, it would display ALL the available contacts.
+      /**
+       * Only render the list items that we are allowed to display.
+       * Otherwise, since we are pre-fetching, it would display ALL the available contacts.
+       *
+       * If the current index of the contact list item is great than numContactsToDisplay (max we are allowed to display)
+       * then don't display it.
+       */
       if (index >= numContactsToDisplay) {
         return null;
       }
 
+      /**
+       * Otherwise we are allowed to render the contact list item
+       */
       return (
         <ListItem key={contact.id}>
           <ContactsListItem contact={contact} onClick={() => openModal(contact)} />
@@ -149,7 +206,11 @@ const ContactsList: React.FunctionComponent = () => {
     });
   };
 
-  // Update the state every time the search text change. This allows us to persist the search when the user flicks between routes.
+  /**
+   * Update the state every time the search text changes. This allows us to persist the search when the user flicks between routes.
+   *
+   * @param {string} text The current search text
+   */
   const onSearchTextChanged = (text: string) => {
     dispatch(setSearchText(text));
   };
@@ -168,6 +229,7 @@ const ContactsList: React.FunctionComponent = () => {
         )}
       </List>
 
+      {/* Displays the selected contact's details in a popup modal */}
       <ContactDetailsModal isOpen={isModalOpen} onClose={closeModal} contact={selectedContact} />
     </Container>
   );

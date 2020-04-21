@@ -1,7 +1,26 @@
+/**
+ * @component
+ *
+ * A generic Page component used on each route. This applies some basic styling so that it can be easily re-used.
+ *
+ * @param {string} heading The heading title of the page
+ * @param {ReactNode} children The children inside the page
+ *
+ */
 import React from 'react';
 import styled from 'styled-components/macro';
 import { colours } from '../constants/colours';
 
+interface Props {
+  heading: string;
+  children?: React.ReactNode;
+}
+
+/**
+ * Styled Components
+ *
+ * See https://styled-components.com/
+ */
 const Container = styled.section`
   display: flex;
   flex: 1;
@@ -22,11 +41,6 @@ const Content = styled.article`
   background-color: white;
   height: 100%;
 `;
-
-interface Props {
-  heading: string;
-  children?: React.ReactNode;
-}
 
 const Page: React.FunctionComponent<Props> = (props: Props) => {
   return (

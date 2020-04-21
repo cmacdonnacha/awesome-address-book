@@ -1,12 +1,26 @@
+/**
+ * @component
+ *
+ * This component allows the user to select which nationalities to fetch when loading contacts.
+ *
+ * @param {Nationality[]} nationalities Array of available nationalities the user can choose from.
+ * @param {callback} onNationalitiesChanged Fires when a nationality has been checked/unchecked.
+ *
+ */
 import React from 'react';
 import styled from 'styled-components/macro';
 import { Nationality } from '../../models/Nationality';
 
 interface Props {
-  onNationalitiesChanged: (nationalities: Nationality[]) => void;
   nationalities: Nationality[];
+  onNationalitiesChanged: (nationalities: Nationality[]) => void;
 }
 
+/**
+ * Styled Components
+ *
+ * See https://styled-components.com/
+ */
 const Container = styled.div`
   display: flex;
   flex: 1;

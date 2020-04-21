@@ -1,3 +1,12 @@
+/**
+ * @component
+ *
+ * This component displays a contact as a list item with some additional styling.
+ *
+ * @param {Contact} contact The contact to display
+ * @param {callback} onClick Fires when list item is clicked
+ *
+ */
 import React from 'react';
 import styled from 'styled-components/macro';
 import { Contact } from '../../models/Contact';
@@ -9,6 +18,11 @@ interface Props {
   onClick?: () => void;
 }
 
+/**
+ * Styled Components
+ *
+ * See https://styled-components.com/
+ */
 const Container = styled.div`
   display: flex;
   flex: 1;

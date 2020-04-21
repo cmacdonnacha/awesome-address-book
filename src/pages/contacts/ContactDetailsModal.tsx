@@ -1,3 +1,13 @@
+/**
+ * @component
+ *
+ * This component uses the generic Modal component and applies it's own styling specific to the contact's details.
+ *
+ * @param {Contact} contact The contact to use when displaying details.
+ * @param {boolean} isOpen Tells us if the contact details modal is open.
+ * @param {callback} onClose Fires when contact details model is closed.
+ *
+ */
 import React from 'react';
 import styled from 'styled-components/macro';
 import { Contact } from '../../models/Contact';
@@ -14,6 +24,11 @@ interface Props {
   onClose: () => void;
 }
 
+/**
+ * Styled Components
+ *
+ * See https://styled-components.com/
+ */
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -116,9 +131,7 @@ const ContactDetailsModal: React.FunctionComponent<Props> = (props: Props) => {
         </Body>
 
         <Footer>
-          <Button onClick={props.onClose} label="close modal please">
-            Close
-          </Button>
+          <Button onClick={props.onClose}>Close</Button>
         </Footer>
       </Container>
     </Modal>

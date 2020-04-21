@@ -1,3 +1,9 @@
+/**
+ * @component
+ *
+ * This component displays the Contacts page route
+ *
+ */
 import React from 'react';
 import Page from '../../components/Page';
 import ContactsList from './ContactsList';

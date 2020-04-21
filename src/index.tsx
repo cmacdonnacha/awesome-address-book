@@ -1,21 +1,24 @@
+/**
+ * @component
+ *
+ * This main component which is the first entry for the app
+ *
+ */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
-import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-
 import App from './App';
 import rootReducer from './slices';
 import { colours } from './constants/colours';
 
+// Set up the redux store
 const store = configureStore({ reducer: rootReducer });
 
-const theme = {
-  primary: '#00C068',
-};
-
+// Styled Components allows us to override global styles to preset common styles and fonts.
 const GlobalStyle = createGlobalStyle`
   html, #root {
     background-color: ${colours.offWhite};
@@ -24,7 +27,6 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     height: 100%;
-
     margin: 0;
     font-family: 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
       'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -35,14 +37,12 @@ const GlobalStyle = createGlobalStyle`
 
 ReactDOM.render(
   <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <React.Fragment>
-        <Router basename={process.env.PUBLIC_URL}>
-          <Route path="/" component={App}></Route>
-        </Router>
-        <GlobalStyle />
-      </React.Fragment>
-    </ThemeProvider>
+    <React.Fragment>
+      <Router basename={process.env.PUBLIC_URL}>
+        <Route path="/" component={App}></Route>
+      </Router>
+      <GlobalStyle />
+    </React.Fragment>
   </Provider>,
   document.getElementById('root'),
 );

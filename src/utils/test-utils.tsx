@@ -1,3 +1,8 @@
+/**
+ *
+ * A collection of test utilities
+ *
+ */
 import React from 'react';
 import { render } from '@testing-library/react';
 import { Router } from 'react-router-dom';
@@ -14,6 +19,12 @@ const rootInitialState: RootState = {
   settings: settingsInitialState,
 };
 
+/**
+ * A utility function which helps render a component with React Router when running tests
+ *
+ * @param {JSX.Element} ui The component to render
+ * @param {string[]} initialRoutes The route(s) to register with React Router
+ */
 export function renderWithRouter(ui: JSX.Element, initialRoutes: string[]) {
   const history = createMemoryHistory({ initialEntries: initialRoutes });
 
@@ -23,6 +34,13 @@ export function renderWithRouter(ui: JSX.Element, initialRoutes: string[]) {
   };
 }
 
+/**
+ * A utility function which helps render a component with React Router & Redux when running tests
+ *
+ * @param {JSX.Element} ui The component to render
+ * @param {string[]} initialRoutes The route(s) to register with React Router
+ * @param {object} initialState The initial redux state. If this is not passed the default root state is used.
+ */
 export function renderWithRouterRedux(ui: JSX.Element, initialRoutes: string[], initialState: object = rootInitialState) {
   const state = initialState;
   const history = createMemoryHistory({ initialEntries: initialRoutes });

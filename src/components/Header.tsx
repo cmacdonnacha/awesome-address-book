@@ -1,3 +1,13 @@
+/**
+ * @component
+ *
+ * A header which appears at the top of the app's main layout
+ *
+ * @param {boolean} isSidebarOpen Tells us if the sidebar is currently open
+ * @param {ReactNode} children The children of this button. Usually the text to be display.
+ * @param {callback} onMenuButtonClicked Fires when the burger menu button is clicked
+ *
+ */
 import React from 'react';
 import styled from 'styled-components/macro';
 import MenuButton from './MenuButton';
@@ -9,6 +19,11 @@ interface Props {
   onMenuButtonClicked: () => void;
 }
 
+/**
+ * Styled Components
+ *
+ * See https://styled-components.com/
+ */
 const Container = styled.header`
   grid-area: header;
   background-color: #3a529c;

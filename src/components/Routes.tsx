@@ -1,9 +1,20 @@
+/**
+ * @component
+ *
+ * This component handles all of the different routes to render depending on the current url
+ *
+ */
 import React from 'react';
 import styled from 'styled-components/macro';
 import { Switch, Route } from 'react-router-dom';
 import ContactsPage from '../pages/contacts/ContactsPage';
 import SettingsPage from '../pages/settings/SettingsPage';
 
+/**
+ * Styled Components
+ *
+ * See https://styled-components.com/
+ */
 const Container = styled.main`
   grid-area: content;
   display: flex;
