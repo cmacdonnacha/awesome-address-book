@@ -23,7 +23,7 @@ interface Props {
  */
 const Image = styled.img<Props>`
   border-radius: 50%;
-  height: ${(props) => props.size};
+  min-height: ${(props) => props.size};
   width: ${(props) => props.size};
 `;
 

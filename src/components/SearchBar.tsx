@@ -31,6 +31,7 @@ const Input = styled.input`
   border: solid 2px ${colours.darkerGrey};
   padding-left: 10px;
   margin-bottom: 20px;
+  box-shadow: 0 11px 13px -6px rgba(135, 142, 192, 0.15);
 
   &:focus {
     border-color: ${colours.secondary};

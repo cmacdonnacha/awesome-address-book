@@ -33,6 +33,7 @@
 
 - Contacts search with infinite scrolling
 - Nationalities selection
+- Mobile friendly / Responsive design
 - Accessability compliant
 - Integration tests
 - Popup modal to display contact details

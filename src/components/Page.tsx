@@ -27,6 +27,7 @@ const Container = styled.section`
   flex-direction: column;
   background-color: white;
   padding: 20px;
+  overflow: hidden;
 
   & h1 {
     margin: 0 0 20px 0;

@@ -34,10 +34,12 @@ const Container = styled.div`
   border-radius: 5px;
   padding: 15px 15px 15px 25px;
   cursor: pointer;
-  box-shadow: 0 4px 11px ${colours.darkGrey}, 0 3px 3px ${colours.darkerGrey};
+  box-shadow: 0 11px 13px -6px rgba(135, 142, 192, 0.15);
+  transition: 0.2s;
 
   &:hover {
     background-color: ${colours.darkGrey};
+    box-shadow: 0 7px 18px 4px rgba(135, 142, 192, 0.15);
   }
 `;
 
@@ -45,11 +47,19 @@ const ContactsDetailsContainer = styled.div`
   display: flex;
   margin-left: 20px;
   flex-direction: column;
+
+  /* When dealing with FlexBox and text overflow, you must set min-width of the parent to 0 */
+  min-width: 0;
+
+  /* Display ellipsis (...) at the end of long text */
+  & span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `;
 
 const ContactName = styled.span`
-  display: flex;
-  flex-direction: column;
   color: ${colours.navy};
   font-size: 1.3rem;
   font-weight: bold;
@@ -57,17 +67,13 @@ const ContactName = styled.span`
 `;
 
 const ContactUsername = styled.span`
-  display: flex;
-  flex-direction: column;
   color: ${colours.navy};
   font-weight: bold;
   font-size: 0.8rem;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
 `;
 
 const ContactEmail = styled.span`
-  display: flex;
-  flex-direction: column;
   color: ${colours.navy};
   font-weight: bold;
   font-size: 0.8rem;
