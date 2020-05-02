@@ -6,8 +6,8 @@
  */
 import { createSlice, PayloadAction, createSelector } from '@reduxjs/toolkit';
 import { RootState } from '.';
-import { defaultNationalities } from '../data/defaultNationalities';
-import { Nationality } from '../models/Nationality';
+import { defaultNationalities } from 'data/defaultNationalities';
+import { Nationality } from 'models/Nationality';
 
 export interface SettingsState {
   nationalities: Nationality[];

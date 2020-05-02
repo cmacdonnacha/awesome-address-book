@@ -9,13 +9,14 @@ import { RootState } from '.';
 import axios from 'axios';
 import { MAX_FETCH_BATCH_SIZE } from '../constants';
 import { selectedNationalityCodes } from './settingsSlice';
-import { Contact } from '../models/Contact';
+import { Contact } from 'models/Contact';
 
 export interface ContactsState {
   isLoading: boolean;
   hasErrors: boolean;
   contacts: Contact[];
   searchText: string;
+  isContactDetailsOpen: boolean;
 }
 
 export const initialState: ContactsState = {
@@ -23,6 +24,7 @@ export const initialState: ContactsState = {
   hasErrors: false,
   contacts: [],
   searchText: '',
+  isContactDetailsOpen: false,
 };
 
 /**
@@ -55,11 +57,25 @@ const contactsSlice = createSlice({
     setSearchText: (state, action: PayloadAction<string>) => {
       state.searchText = action.payload;
     },
+    contactDetailsOpened: (state) => {
+      state.isContactDetailsOpen = true;
+    },
+    contactDetailsClosed: (state) => {
+      state.isContactDetailsOpen = false;
+    },
   },
 });
 
-// Three actions generated from the slice. We don't have to define them above since they use the same names as the reducers.
-export const { getContacts, getContactsSuccess, getContactsFailure, resetContactsList, setSearchText } = contactsSlice.actions;
+// Actions generated from the slice. We don't have to define them above since they use the same names as the reducers.
+export const {
+  getContacts,
+  getContactsSuccess,
+  getContactsFailure,
+  resetContactsList,
+  setSearchText,
+  contactDetailsOpened,
+  contactDetailsClosed,
+} = contactsSlice.actions;
 
 /** A selector which we'll use to access the 'contacts' root state from a React component instead of using mapStateToProps (the old way).
  *  Note: This is not the `contacts` property you see at the top of this file but rather the root Contacts state in index.ts. They just share the same name.

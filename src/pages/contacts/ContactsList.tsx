@@ -6,15 +6,15 @@
  */
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
-import { contactsSelector, fetchContacts, setSearchText } from '../../slices/contactsSlice';
-import { Contact } from '../../models/Contact';
+import { contactsSelector, fetchContacts, setSearchText, contactDetailsOpened } from 'slices/contactsSlice';
+import { Contact } from 'models/Contact';
 import { useSelector, useDispatch } from 'react-redux';
 import ContactsListItem from './ContactListItem';
-import Loader from '../../components/Loader';
+import Loader from 'components/Loader';
 import { MAX_FETCH_BATCH_SIZE, MAX_TOTAL_CONTACTS } from '../../constants';
-import Banner from '../../components/Banner';
-import SearchBar from '../../components/SearchBar';
-import ContactDetailsModal from './ContactDetailsModal';
+import Banner from 'components/Banner';
+import SearchBar from 'components/SearchBar';
+import { Link } from 'react-router-dom';
 
 /**
  * Styled Components
@@ -54,14 +54,21 @@ const ListItem = styled.li`
 const ContactsList: React.FunctionComponent = () => {
   const dispatch = useDispatch();
   const [numContactsToDisplay, setNumContactsToDisplay] = useState<number>(MAX_FETCH_BATCH_SIZE);
-  const [isModalOpen, setModalOpen] = useState<boolean>(false);
-  const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
 
   // Use object destructuring to get what we need from the contacts state.
   const { contacts, isLoading, hasErrors, searchText } = useSelector(contactsSelector);
 
   // A reference to the contacts list element so we can use it to attach a scroll event handler.
   const contactsListRef = useRef<HTMLUListElement>(null);
+
+  /**
+   * If search text has been entered then filter them.
+   * User can search by first name, last name or both.
+   */
+  const searchedContacts = contacts.filter((contact) => {
+    const contactFullName = `${contact.name.first} ${contact.name.last}`.toLowerCase();
+    return contactFullName.includes(searchText.toLowerCase());
+  });
 
   // Load the initial users but only if we don't already have any.
   useEffect(() => {
@@ -126,24 +133,6 @@ const ContactsList: React.FunctionComponent = () => {
   }, [contactsListRef, numContactsToDisplay]);
 
   /**
-   * Opens the contact details modal
-   *
-   * @param {Contact} contact A contact object
-   */
-  const openModal = (contact: Contact) => {
-    setSelectedContact(contact);
-    setModalOpen(!isModalOpen);
-  };
-
-  /**
-   * Opens the contact details modal
-   */
-  const closeModal = () => {
-    setModalOpen(!isModalOpen);
-    setSelectedContact(null);
-  };
-
-  /**
    * Renders the appropriate component depending on the state of the app.
    */
   const renderContacts = () => {
@@ -151,7 +140,7 @@ const ContactsList: React.FunctionComponent = () => {
      * Contacts list is loading so display a friendly message to the user.
      * Only do this if contacts.length === 0, otherwise it will be displayed when we pre-fetch contacts.
      */
-    if (isLoading && contacts.length === 0) {
+    if (isLoading && searchedContacts.length === 0) {
       return (
         <CenteredContainer>
           <Loader text={'Loading contacts...'} />
@@ -163,22 +152,17 @@ const ContactsList: React.FunctionComponent = () => {
      * Display a friendly error message to the user if something went wrong during the contacts fetch or
      * loading has finished but no contacts were returned.
      */
-    if (hasErrors || (!isLoading && contacts.length === 0)) {
+    if (hasErrors || (!isLoading && searchedContacts.length === 0)) {
       return (
         <CenteredContainer>
-          <span>{"Couldn't find contacts 😥"}</span>
+          <span>{'No contacts found 😥'}</span>
         </CenteredContainer>
       );
     }
 
-    /**
-     * If search text has been entered then filter them.
-     * User can search by first name, last name or both.
-     */
-    const searchedContacts = contacts.filter((contact) => {
-      const contactFullName = `${contact.name.first} ${contact.name.last}`.toLowerCase();
-      return contactFullName.includes(searchText.toLowerCase());
-    });
+    const onContactClicked = () => {
+      dispatch(contactDetailsOpened());
+    };
 
     /**
      * Finally iterate through each contact and display them as list items.
@@ -199,9 +183,11 @@ const ContactsList: React.FunctionComponent = () => {
        * Otherwise we are allowed to render the contact list item
        */
       return (
-        <ListItem key={contact.id}>
-          <ContactsListItem contact={contact} onClick={() => openModal(contact)} />
-        </ListItem>
+        <Link key={contact.id} to={`/contacts/${contact.id}`} style={{ textDecoration: 'none' }}>
+          <ListItem>
+            <ContactsListItem contact={contact} onClick={onContactClicked} />
+          </ListItem>
+        </Link>
       );
     });
   };
@@ -228,9 +214,6 @@ const ContactsList: React.FunctionComponent = () => {
           </li>
         )}
       </List>
-
-      {/* Displays the selected contact's details in a popup modal */}
-      <ContactDetailsModal isOpen={isModalOpen} onClose={closeModal} contact={selectedContact} />
     </Container>
   );
 };

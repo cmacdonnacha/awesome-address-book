@@ -8,7 +8,7 @@
  */
 import React from 'react';
 import styled from 'styled-components/macro';
-import { colours } from '../constants/colours';
+import { colours } from 'constants/colours';
 
 interface Props {
   text: string;
@@ -20,7 +20,7 @@ interface Props {
  * See https://styled-components.com/
  */
 const Container = styled.div`
-  height: 30px;
+  height: 60px;
   background-color: ${colours.secondary};
   display: flex;
   flex: 1;

@@ -9,7 +9,7 @@
  */
 import React from 'react';
 import styled from 'styled-components/macro';
-import { Nationality } from '../../models/Nationality';
+import { Nationality } from 'models/Nationality';
 
 interface Props {
   nationalities: Nationality[];

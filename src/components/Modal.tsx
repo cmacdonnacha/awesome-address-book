@@ -13,7 +13,7 @@
  */
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 // 'modal' div is a sibling to 'app' div which exists in index.html
 const modalRoot: HTMLElement = document.getElementById('modal') || document.createElement('div');

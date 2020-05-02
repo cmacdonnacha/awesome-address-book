@@ -4,8 +4,10 @@ export const colours = {
   white: '#ffffff',
   black: '#000000',
   grey: '#ededf7',
-  darkGrey: '#e3e3ea',
-  darkerGrey: '#b1b1b7',
+  grey2: '#e3e3ea',
+  grey3: '#b1b1b7',
+  grey4: '#747481',
   offWhite: '#f4f5f9',
   navy: '#495576',
+  green: '#38b249',
 };

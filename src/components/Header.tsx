@@ -11,8 +11,8 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import MenuButton from './MenuButton';
-import { screenSize } from '../constants/screenSizes';
-import { colours } from '../constants/colours';
+import { screenSize } from 'constants/screenSizes';
+import { colours } from 'constants/colours';
 
 interface Props {
   isSidebarOpen: boolean;

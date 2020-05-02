@@ -12,8 +12,9 @@ import styled from 'styled-components/macro';
 import { colours } from '../constants/colours';
 
 interface Props {
-  heading: string;
+  heading?: string;
   children?: React.ReactNode;
+  noPadding?: boolean;
 }
 
 /**
@@ -21,32 +22,33 @@ interface Props {
  *
  * See https://styled-components.com/
  */
-const Container = styled.section`
+const Container = styled.section<Props>`
   display: flex;
   flex: 1;
   flex-direction: column;
   background-color: white;
-  padding: 20px;
+  padding: ${(props) => (props.noPadding ? '0' : '20px')};
   overflow: hidden;
-
-  & h1 {
-    margin: 0 0 20px 0;
-    color: ${colours.navy};
-  }
 `;
 
-const Content = styled.article`
+const Content = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
   background-color: white;
   height: 100%;
+  overflow: hidden;
 `;
 
-const Page: React.FunctionComponent<Props> = (props: Props) => {
+const PageHeading = styled.h1`
+  margin: 0;
+  color: ${colours.navy};
+`;
+
+const Page = (props: Props) => {
   return (
-    <Container>
-      <h1>{props.heading}</h1>
+    <Container noPadding={props.noPadding}>
+      {props.heading && <PageHeading>{props.heading}</PageHeading>}
       <Content>{props.children}</Content>
     </Container>
   );

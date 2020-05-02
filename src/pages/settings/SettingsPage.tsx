@@ -5,21 +5,25 @@
  *
  */
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import Page from '../../components/Page';
+import styled from 'styled-components/macro';
+import Page from 'components/Page';
 import NationalitiesSelector from './NationalitiesSelector';
-import Button from '../../components/Button';
+import Button from 'components/Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { nationalitiesSelector, getSelectedNationalities } from '../../slices/settingsSlice';
-import { Nationality } from '../../models/Nationality';
-import { resetContactsList, fetchContacts } from '../../slices/contactsSlice';
-import { screenSize } from '../../constants/screenSizes';
+import { nationalitiesSelector, getSelectedNationalities } from 'slices/settingsSlice';
+import { Nationality } from 'models/Nationality';
+import { resetContactsList, fetchContacts } from 'slices/contactsSlice';
+import { screenSize } from 'constants/screenSizes';
 
 /**
  * Styled Components
  *
  * See https://styled-components.com/
  */
+const Container = styled.div`
+  margin: 20px;
+`;
+
 const SettingsInfoText = styled.p`
   display: flex;
 `;
@@ -73,14 +77,16 @@ const SettingsPage: React.FunctionComponent = () => {
 
   return (
     <Page heading="Settings">
-      <SettingsInfoText>Select nationalities to be included in your address book:</SettingsInfoText>
-      <NationalitiesSelector nationalities={nationalities} onNationalitiesChanged={onNationalitiesChanged} />
-      <Footer>
-        <Button onClick={saveSettings} size={40}>
-          Save
-        </Button>
-      </Footer>
-      {showSettingsSavedMessage && <SettingsSavedMessage>{'Settings saved! 👌'}</SettingsSavedMessage>}
+      <Container>
+        <SettingsInfoText>Select nationalities to be included in your address book:</SettingsInfoText>
+        <NationalitiesSelector nationalities={nationalities} onNationalitiesChanged={onNationalitiesChanged} />
+        <Footer>
+          <Button onClick={saveSettings} size={40}>
+            Save
+          </Button>
+        </Footer>
+        {showSettingsSavedMessage && <SettingsSavedMessage>{'Settings saved! 👌'}</SettingsSavedMessage>}
+      </Container>
     </Page>
   );
 };

@@ -10,12 +10,12 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { NavLink } from 'react-router-dom';
-import { colours } from '../constants/colours';
-import { screenSize } from '../constants/screenSizes';
+import { colours } from 'constants/colours';
+import { screenSize } from 'constants/screenSizes';
 import { UserFriends as UserFriendsIcon } from '@styled-icons/fa-solid/UserFriends';
 import { Settings2 as SettingsIcon } from '@styled-icons/evaicons-solid/Settings2';
 import Avatar from './Avatar';
-import userProfile from '../../src/assets/user-profile.png';
+import userProfile from 'assets/user-profile.png';
 
 interface Props {
   isSidebarOpen?: boolean;
@@ -106,7 +106,7 @@ const Sidebar: React.FunctionComponent<Props> = (props: Props) => {
       </ProfileContainer>
       <SidebarList>
         <li>
-          <StyledNavLink to="/" exact onClick={props.onLinkClicked}>
+          <StyledNavLink to="/contacts" onClick={props.onLinkClicked}>
             <UserFriendsIcon />
             Contacts
           </StyledNavLink>

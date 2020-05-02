@@ -15,6 +15,7 @@ export interface ContactName {
 }
 
 interface Location {
+  country: string;
   street: string;
   city: string;
   state: string;

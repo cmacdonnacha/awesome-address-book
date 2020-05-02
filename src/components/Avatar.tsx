@@ -24,6 +24,7 @@ interface Props {
 const Image = styled.img<Props>`
   border-radius: 50%;
   min-height: ${(props) => props.size};
+  height: ${(props) => props.size};
   width: ${(props) => props.size};
 `;
 

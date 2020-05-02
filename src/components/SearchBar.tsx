@@ -11,7 +11,7 @@
  */
 import React, { useState } from 'react';
 import styled from 'styled-components/macro';
-import { colours } from '../constants/colours';
+import { colours } from 'constants/colours';
 
 interface Props {
   placeholder?: string;
@@ -28,9 +28,9 @@ interface Props {
 const Input = styled.input`
   height: 35px;
   border-radius: 3px;
-  border: solid 2px ${colours.darkerGrey};
+  border: solid 2px ${colours.grey3};
   padding-left: 10px;
-  margin-bottom: 20px;
+  margin: 20px;
   box-shadow: 0 11px 13px -6px rgba(135, 142, 192, 0.15);
 
   &:focus {

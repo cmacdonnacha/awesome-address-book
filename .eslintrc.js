@@ -21,6 +21,7 @@ module.exports = {
     "react-hooks/exhaustive-deps": "warn",
     "@typescript-eslint/explicit-function-return-type": "off",
     "curly": "error",
+    "no-console": "warn"
   },
   settings: {
     react: {

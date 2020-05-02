@@ -9,9 +9,9 @@
  */
 import React from 'react';
 import styled from 'styled-components/macro';
-import { Contact } from '../../models/Contact';
-import { colours } from '../../constants/colours';
-import Avatar from '../../components/Avatar';
+import { Contact } from 'models/Contact';
+import { colours } from 'constants/colours';
+import Avatar from 'components/Avatar';
 
 interface Props {
   contact: Contact;
@@ -38,7 +38,7 @@ const Container = styled.div`
   transition: 0.2s;
 
   &:hover {
-    background-color: ${colours.darkGrey};
+    background-color: ${colours.grey2};
     box-shadow: 0 7px 18px 4px rgba(135, 142, 192, 0.15);
   }
 `;

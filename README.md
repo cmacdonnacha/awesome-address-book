@@ -35,7 +35,7 @@
 - Nationalities selection
 - Mobile friendly / Responsive design
 - Accessability compliant
-- Integration tests
+- Unit & Integration tests
 - Popup modal to display contact details
 - Sidebar navigation
 
@@ -49,8 +49,8 @@
 
 ## Set up
 
-1. Click the `Use this Template` button or `git clone https://github.com/cmacdonnacha/awesome-address-book.git awesome-address-book`
-2. `cd my-app`
+1. `git clone https://github.com/cmacdonnacha/awesome-address-book.git awesome-address-book`
+2. `cd awesome-address-book`
 3. `npm install`
 4. That's it! See the **Available Commands** list below.
 

@@ -7,8 +7,8 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { Switch, Route } from 'react-router-dom';
-import ContactsPage from '../pages/contacts/ContactsPage';
-import SettingsPage from '../pages/settings/SettingsPage';
+import ContactsPage from 'pages/contacts/ContactsPage';
+import SettingsPage from 'pages/settings/SettingsPage';
 
 /**
  * Styled Components
@@ -20,7 +20,7 @@ const Container = styled.main`
   display: flex;
   flex: 1;
   margin: 10px;
-  overflow-y: hidden;
+  overflow: hidden;
 `;
 
 const Routes: React.FunctionComponent = () => {
@@ -37,11 +37,16 @@ const Routes: React.FunctionComponent = () => {
           So a <Route path="/"> will always match the URL, no matter what it is. Because of this, we typically put this <Route> last in our <Switch>. 
           Another possible solution is to use <Route exact path="/"> which DOES match the entire URL.
         */}
-        <Route exact path="/">
+        <Route path="/contacts">
           <ContactsPage />
         </Route>
         <Route path="/settings">
           <SettingsPage />
+        </Route>
+
+        {/* Default Route if all of the above don't match */}
+        <Route>
+          <ContactsPage />
         </Route>
       </Switch>
     </Container>
