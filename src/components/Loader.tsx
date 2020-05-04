@@ -78,8 +78,8 @@ const LoadingText = styled.span`
   font-size: 1.3rem;
 `;
 
-const Loader: React.FunctionComponent<Props> = (props: Props) => {
-  const textElement = props.text ? <LoadingText>{props.text}</LoadingText> : null;
+const Loader = ({ text }: Props) => {
+  const textElement = text ? <LoadingText>{text}</LoadingText> : null;
 
   return (
     <Container>

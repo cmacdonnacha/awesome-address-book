@@ -97,22 +97,22 @@ const Username = styled.span`
   font-size: 1rem;
 `;
 
-const Sidebar: React.FunctionComponent<Props> = (props: Props) => {
+const Sidebar = ({ isSidebarOpen, onLinkClicked }: Props) => {
   return (
-    <Container isSidebarOpen={props.isSidebarOpen}>
+    <Container isSidebarOpen={isSidebarOpen}>
       <ProfileContainer>
         <Avatar alt={'User Profile Image'} src={userProfile} size={'6rem'} />
         <Username>Cathal Mac Donnacha</Username>
       </ProfileContainer>
       <SidebarList>
         <li>
-          <StyledNavLink to="/contacts" onClick={props.onLinkClicked}>
+          <StyledNavLink to="/contacts" onClick={onLinkClicked}>
             <UserFriendsIcon />
             Contacts
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/settings" onClick={props.onLinkClicked}>
+          <StyledNavLink to="/settings" onClick={onLinkClicked}>
             <SettingsIcon />
             Settings
           </StyledNavLink>

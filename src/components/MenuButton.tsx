@@ -69,9 +69,9 @@ const StyledMenuButton = styled.button<Props>`
   }
 `;
 
-const MenuButton: React.FunctionComponent<Props> = (props: Props) => {
+const MenuButton = ({ isOpen, onClick }: Props) => {
   return (
-    <StyledMenuButton aria-label="Toggle menu" aria-expanded={props.isOpen} isOpen={props.isOpen} onClick={props.onClick}>
+    <StyledMenuButton aria-label="Toggle menu" aria-expanded={isOpen} isOpen={isOpen} onClick={onClick}>
       <div />
       <div />
       <div />

@@ -52,7 +52,7 @@ const ModalBody = styled.div`
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Modal: React.FunctionComponent<Props> = (props: Props): any => {
+const Modal = ({ isOpen, children }: Props): any => {
   // Element to which the modal will be rendered
   const targetContainer: HTMLDivElement = document.createElement('div');
 
@@ -69,11 +69,11 @@ const Modal: React.FunctionComponent<Props> = (props: Props): any => {
   }, [targetContainer]);
 
   return (
-    props.isOpen &&
+    isOpen &&
     createPortal(
       // This is what gets rendered when the modal is opened
       <ModalContainer>
-        <ModalBody>{props.children}</ModalBody>
+        <ModalBody>{children}</ModalBody>
       </ModalContainer>,
       targetContainer,
     )

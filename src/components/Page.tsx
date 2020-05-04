@@ -45,11 +45,11 @@ const PageHeading = styled.h1`
   color: ${colours.navy};
 `;
 
-const Page = (props: Props) => {
+const Page = ({ heading, children, noPadding }: Props) => {
   return (
-    <Container noPadding={props.noPadding}>
-      {props.heading && <PageHeading>{props.heading}</PageHeading>}
-      <Content>{props.children}</Content>
+    <Container noPadding={noPadding}>
+      {heading && <PageHeading>{heading}</PageHeading>}
+      <Content>{children}</Content>
     </Container>
   );
 };

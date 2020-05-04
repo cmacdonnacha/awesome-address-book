@@ -91,7 +91,7 @@ const ContactsList: React.FunctionComponent = () => {
      *
      * For example we may have 100 contacts but only displaying 50. When the user scrolls to bottom we can then quickly display 100 and fetch more.
      *
-     * You will notice the fetchContacts() will be initially fired twice, once to fetch and display the first 50 contacts, and once more to pre-fetch the next batch of 50.
+     * You will notice the fetchContacts() action will be initially fired twice, once to fetch and display the first 50 contacts, and once more to pre-fetch the next batch of 50.
      */
     if (contacts.length === numContactsToDisplay) {
       dispatch(fetchContacts());

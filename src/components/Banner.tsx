@@ -29,8 +29,8 @@ const Container = styled.div`
   color: ${colours.white};
 `;
 
-const Banner: React.FunctionComponent<Props> = (props: Props) => {
-  return <Container>{props.text}</Container>;
+const Banner = ({ text }: Props) => {
+  return <Container>{text}</Container>;
 };
 
 export default Banner;

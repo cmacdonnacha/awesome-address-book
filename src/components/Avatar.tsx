@@ -28,9 +28,9 @@ const Image = styled.img<Props>`
   width: ${(props) => props.size};
 `;
 
-const Avatar: React.FunctionComponent<Props> = (props: Props) => {
-  const avatarSize = props.size || '2rem';
-  return <Image src={props.src} size={avatarSize} alt={props.alt}></Image>;
+const Avatar = ({ src, size, alt }: Props) => {
+  const avatarSize = size || '2rem';
+  return <Image src={src} size={avatarSize} alt={alt}></Image>;
 };
 
 export default Avatar;

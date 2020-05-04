@@ -41,10 +41,10 @@ const Label = styled.label`
   margin-left: 10px;
 `;
 
-const NationalitiesSelector: React.FunctionComponent<Props> = (props: Props) => {
+const NationalitiesSelector = ({ nationalities, onNationalitiesChanged }: Props) => {
   const onNationalityClicked = (selectedNationality: Nationality) => {
     // Make a copy of the nationalities array so we don't mutate props directly
-    const newNationalities = props.nationalities.map((nationality) => {
+    const newNationalities = nationalities.map((nationality) => {
       // If this nationality code doesn't match then ignore it
       if (nationality.code !== selectedNationality.code) {
         return nationality;
@@ -55,13 +55,13 @@ const NationalitiesSelector: React.FunctionComponent<Props> = (props: Props) => 
     });
 
     // Let the parent know that the nationalities have been updated
-    props.onNationalitiesChanged([...newNationalities]);
+    onNationalitiesChanged([...newNationalities]);
   };
 
   return (
     <Container>
       <List>
-        {props.nationalities.map((nationality: Nationality) => {
+        {nationalities.map((nationality: Nationality) => {
           return (
             <ListItem key={nationality.code}>
               <input

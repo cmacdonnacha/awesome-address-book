@@ -79,16 +79,16 @@ const ContactEmail = styled.span`
   font-size: 0.8rem;
 `;
 
-const ContactListItem: React.FunctionComponent<Props> = (props: Props) => {
+const ContactListItem = ({ contact, onClick }: Props) => {
   return (
-    <Container onClick={props.onClick}>
-      <Avatar alt="Contact Avatar" src={props.contact.avatarUrl} size={'5rem'} />
+    <Container onClick={onClick}>
+      <Avatar alt="Contact Avatar" src={contact.avatarUrl} size={'5rem'} />
       <ContactsDetailsContainer>
         <ContactName>
-          {props.contact.name.first} {props.contact.name.last}
+          {contact.name.first} {contact.name.last}
         </ContactName>
-        <ContactUsername>{props.contact.username}</ContactUsername>
-        <ContactEmail>{props.contact.email}</ContactEmail>
+        <ContactUsername>{contact.username}</ContactUsername>
+        <ContactEmail>{contact.email}</ContactEmail>
       </ContactsDetailsContainer>
     </Container>
   );

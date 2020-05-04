@@ -28,8 +28,8 @@ const Container = styled.div`
   z-index: 1;
 `;
 
-const Backdrop: React.FunctionComponent<Props> = (props: Props) => {
-  return <Container onClick={props.onClick} />;
+const Backdrop = ({ onClick }: Props) => {
+  return <Container onClick={onClick} />;
 };
 
 export default Backdrop;

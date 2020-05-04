@@ -47,10 +47,10 @@ const Container = styled.button<Props>`
   }
 `;
 
-const Button: React.FunctionComponent<Props> = (props: Props) => {
+const Button = ({ size, children, onClick }: Props) => {
   return (
-    <Container onClick={props.onClick} size={props.size}>
-      {props.children}
+    <Container onClick={onClick} size={size}>
+      {children}
     </Container>
   );
 };

@@ -38,8 +38,8 @@ const Input = styled.input`
   }
 `;
 
-const SearchBar: React.FunctionComponent<Props> = (props: Props) => {
-  const defaultValue = props.value || '';
+const SearchBar = ({ placeholder, value, ariaLabel, onSearchTextChanged }: Props) => {
+  const defaultValue = value || '';
   const [inputText, setInputText] = useState(defaultValue);
 
   const onTextChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,10 +47,10 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props) => {
     setInputText(e.target.value);
 
     // Also let the parent know the search text has changed if used.
-    props.onSearchTextChanged(e.target.value);
+    onSearchTextChanged(e.target.value);
   };
 
-  return <Input value={inputText} onChange={onTextChanged} placeholder={props.placeholder} aria-label={props.ariaLabel}></Input>;
+  return <Input value={inputText} onChange={onTextChanged} placeholder={placeholder} aria-label={ariaLabel}></Input>;
 };
 
 export default SearchBar;

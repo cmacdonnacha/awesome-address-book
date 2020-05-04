@@ -44,10 +44,10 @@ const Title = styled.h3`
   }
 `;
 
-const Header: React.FunctionComponent<Props> = (props: Props) => {
+const Header = ({ isSidebarOpen, onMenuButtonClicked }: Props) => {
   return (
     <Container>
-      <MenuButton isOpen={props.isSidebarOpen} onClick={props.onMenuButtonClicked} />
+      <MenuButton isOpen={isSidebarOpen} onClick={onMenuButtonClicked} />
       <Title>{'📖 Awesome Address Book'}</Title>
     </Container>
   );
