@@ -1,9 +1,3 @@
-/**
- * @component
- *
- * Displays contacts in a scrollable, infinite list.
- *
- */
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
 import { contactsSelector, fetchContacts, setSearchText, contactDetailsOpened } from 'slices/contactsSlice';
@@ -15,12 +9,8 @@ import { MAX_FETCH_BATCH_SIZE, MAX_TOTAL_CONTACTS } from '../../constants';
 import Banner from 'components/Banner';
 import SearchBar from 'components/SearchBar';
 import { Link } from 'react-router-dom';
+import { useHasScrolledToBottom } from 'hooks/useHasScrolledToBottom';
 
-/**
- * Styled Components
- *
- * See https://styled-components.com/
- */
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -60,6 +50,8 @@ const ContactsList: React.FunctionComponent = () => {
 
   // A reference to the contacts list element so we can use it to attach a scroll event handler.
   const contactsListRef = useRef<HTMLUListElement>(null);
+  const { current } = contactsListRef;
+  const hasScrolledToBottom = useHasScrolledToBottom(current);
 
   /**
    * If search text has been entered then filter them.
@@ -70,14 +62,13 @@ const ContactsList: React.FunctionComponent = () => {
     return contactFullName.includes(searchText.toLowerCase());
   });
 
-  // Load the initial users but only if we don't already have any.
+  // Handle fetching users
   useEffect(() => {
+    // Load the initial users but only if we don't already have any.
     if (contacts.length === 0) {
       dispatch(fetchContacts());
     }
-  }, [dispatch, contacts.length]);
 
-  useEffect(() => {
     // Don't fetch any more users if we've already reached the max allowed.
     if (numContactsToDisplay >= MAX_TOTAL_CONTACTS) {
       return;
@@ -98,39 +89,13 @@ const ContactsList: React.FunctionComponent = () => {
     }
   }, [dispatch, contacts.length, numContactsToDisplay]);
 
-  // Handles the scroll updates inside a useEffect
+  // Handle scrolling to bottom
   useEffect(() => {
-    // A reference to the contacts list so we can use it to attach a scroll event handler.
-    const { current } = contactsListRef;
-
-    if (!current) {
-      return;
+    if (hasScrolledToBottom) {
+      // Pass a function so that useEffect doesn't require numContactsToDisplay as a dependency. When this function runs it passes the current state 'numContactsToDisplay' as the first argument.
+      setNumContactsToDisplay((prevNumContactsToDisplay) => prevNumContactsToDisplay + MAX_FETCH_BATCH_SIZE);
     }
-
-    /**
-     * Tracks the current scroll position so that we can detect if the user has scrolled to bottom.
-     */
-    const handleScroll = () => {
-      // Check if the user has scrolled to the bottom
-      if (current.offsetHeight + current.scrollTop !== current.scrollHeight) {
-        return;
-      }
-
-      // Don't bother updating 'numContactsToDisplay' since we've already reached the max number of contacts to display.
-      if (numContactsToDisplay >= MAX_TOTAL_CONTACTS) {
-        return;
-      }
-
-      // User has scrolled to bottom so update 'numContactsToDisplay' which will tell our app that we can pre-fetch more.
-      setNumContactsToDisplay(numContactsToDisplay + MAX_FETCH_BATCH_SIZE);
-    };
-
-    // Subscribe to the scroll event
-    current.addEventListener('scroll', handleScroll);
-
-    // Unsubscribe to the scroll event. Returning a function here tells React to perform a cleanup.
-    return () => current.removeEventListener('scroll', handleScroll);
-  }, [contactsListRef, numContactsToDisplay]);
+  }, [hasScrolledToBottom]);
 
   /**
    * Renders the appropriate component depending on the state of the app.
@@ -210,7 +175,7 @@ const ContactsList: React.FunctionComponent = () => {
         {/* Display a banner to tell the user we have reached the end of the list */}
         {numContactsToDisplay >= MAX_TOTAL_CONTACTS && (
           <li>
-            <Banner text="End of users catalog" />
+            <Banner text="No more contacts 🤷‍‍" />
           </li>
         )}
       </List>
