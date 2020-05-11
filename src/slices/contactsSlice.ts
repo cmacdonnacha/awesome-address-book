@@ -6,10 +6,9 @@
  */
 import { createSlice, PayloadAction, Dispatch } from '@reduxjs/toolkit';
 import { RootState } from '.';
-import axios from 'axios';
-import { MAX_FETCH_BATCH_SIZE } from '../constants';
 import { selectedNationalityCodes } from './settingsSlice';
 import { Contact } from 'models/Contact';
+import ContactsAPI from 'services/ContactsAPI';
 
 export interface ContactsState {
   isLoading: boolean;
@@ -90,30 +89,17 @@ export default contactsSlice.reducer;
  */
 export function fetchContacts() {
   return async (dispatch: Dispatch, getState: () => RootState) => {
-    dispatch(getContacts());
-
-    // Get the selected nationality codes via the selectedNationalityCodes selector
-    const selectedNationalities = selectedNationalityCodes(getState());
-
     try {
-      const response = await axios.get(`https://randomuser.me/api?results=${MAX_FETCH_BATCH_SIZE}&nat=${selectedNationalities}`);
+      dispatch(getContacts());
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const contacts: Contact[] = response.data.results.map((user: any) => {
-        return {
-          id: user.login.uuid,
-          name: user.name,
-          username: user.login.username,
-          avatarUrl: user.picture.large,
-          email: user.email,
-          phone: user.phone,
-          cell: user.cell,
-          location: {
-            ...user.location,
-            street: user.location.street.name,
-          },
-        };
-      });
+      // Get the selected nationality codes via the selectedNationalityCodes selector
+      const selectedNationalities: string[] = selectedNationalityCodes(getState());
+
+      const extraParams = {
+        nat: selectedNationalities.join(),
+      };
+
+      const contacts: Contact[] = await ContactsAPI.getContacts(extraParams);
 
       dispatch(getContactsSuccess(contacts));
     } catch (error) {
