@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
-import { contactsSelector, fetchContacts, setSearchText, contactDetailsOpened } from 'slices/contactsSlice';
+import { contactsSelector, fetchContacts, setSearchText, contactDetailsOpened, searchedContactsSelector } from 'slices/contactsSlice';
 import { Contact } from 'models/Contact';
 import { useSelector, useDispatch } from 'react-redux';
 import ContactsListItem from './ContactListItem';
@@ -34,6 +34,7 @@ const List = styled.ul`
   flex: 1;
   list-style: none;
   padding: 0;
+  margin: 0;
   overflow-y: auto;
 `;
 
@@ -47,20 +48,12 @@ const ContactsList: React.FunctionComponent = () => {
 
   // Use object destructuring to get what we need from the contacts state.
   const { contacts, isLoading, hasErrors, searchText } = useSelector(contactsSelector);
+  const searchedContacts = useSelector(searchedContactsSelector);
 
   // A reference to the contacts list element so we can use it to attach a scroll event handler.
   const contactsListRef = useRef<HTMLUListElement>(null);
   const { current } = contactsListRef;
   const hasScrolledToBottom = useHasScrolledToBottom(current);
-
-  /**
-   * If search text has been entered then filter them.
-   * User can search by first name, last name or both.
-   */
-  const searchedContacts = contacts.filter((contact) => {
-    const contactFullName = `${contact.name.first} ${contact.name.last}`.toLowerCase();
-    return contactFullName.includes(searchText.toLowerCase());
-  });
 
   // Handle fetching users
   useEffect(() => {
@@ -168,7 +161,13 @@ const ContactsList: React.FunctionComponent = () => {
 
   return (
     <Container>
-      <SearchBar value={searchText} placeholder={'Search...'} onSearchTextChanged={onSearchTextChanged} ariaLabel={'Search for contacts'} />
+      <SearchBar
+        value={searchText}
+        placeholder={'Search...'}
+        onSearchTextChanged={onSearchTextChanged}
+        ariaLabel={'Search for contacts'}
+        type="search"
+      />
       <List ref={contactsListRef}>
         {renderContacts()}
 

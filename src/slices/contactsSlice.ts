@@ -81,6 +81,14 @@ export const {
  */
 export const contactsSelector = (state: RootState) => state.contacts;
 
+// Selector which filters contacts by searching for first and/or last name
+export const searchedContactsSelector = (state: RootState) => {
+  return state.contacts.contacts.filter((contact: Contact) => {
+    const contactFullName = `${contact.name.first} ${contact.name.last}`.toLowerCase();
+    return contactFullName.includes(state.contacts.searchText.toLowerCase());
+  });
+};
+
 // The reducer. Again this is exposed by the 'contactsSlice' object created above. In the old Redux this was the equivalent to returning the current contacts state inside a separate `contactsReducer.ts` file.
 export default contactsSlice.reducer;
 
