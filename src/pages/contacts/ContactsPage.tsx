@@ -1,19 +1,15 @@
-/**
- * @component
- *
- * This component displays the Contacts page route
- *
- */
-import React from 'react';
+import React, { useEffect } from 'react';
 import Page from 'components/Page';
 import ContactsList from './ContactsList';
 import styled from 'styled-components/macro';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { contactsSelector } from 'slices/contactsSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { contactsSelector, fetchContacts } from 'slices/contactsSlice';
 import { screenSize } from 'constants/screenSizes';
 import ContactDetails from './ContactDetails';
 import { colours } from 'constants/colours';
+import Loader from 'components/Loader';
+import PlaceholderInfo from 'components/PlaceholderInfo';
 
 interface Props {
   isContactDetailsOpen: boolean;
@@ -53,12 +49,31 @@ const ContactsDetailsContainer = styled(ContentContainer)`
   flex: 2;
 `;
 
-const Contacts: React.FunctionComponent = () => {
-  const { contacts, isContactDetailsOpen } = useSelector(contactsSelector);
+const ContactsPage: React.FunctionComponent = () => {
+  const { contacts, isContactDetailsOpen, isLoading, hasErrors } = useSelector(contactsSelector);
+  const dispatch = useDispatch();
 
-  return (
-    <Page noPadding>
-      <PageHeading>Contacts</PageHeading>
+  useEffect(() => {
+    // Load the initial users but only if we don't already have any.
+    if (contacts.length === 0) {
+      dispatch(fetchContacts());
+    }
+  }, [dispatch, contacts.length]);
+
+  const renderPageContent = () => {
+    if (isLoading) {
+      return <Loader text={'Loading contacts...'} />;
+    }
+
+    if (hasErrors) {
+      return <PlaceholderInfo icon={'🤷‍♂️'} text={'Something went wrong'} />;
+    }
+
+    if (!isLoading && contacts.length === 0) {
+      return <PlaceholderInfo icon={'😢‍'} text={'No contacts found'} />;
+    }
+
+    return (
       <RowContainer>
         <ContactsListContainer isContactDetailsOpen={isContactDetailsOpen}>
           <ContactsList />
@@ -73,8 +88,14 @@ const Contacts: React.FunctionComponent = () => {
           </Switch>
         </ContactsDetailsContainer>
       </RowContainer>
+    );
+  };
+  return (
+    <Page noPadding>
+      <PageHeading>Contacts</PageHeading>
+      {renderPageContent()}
     </Page>
   );
 };
 
-export default Contacts;
+export default ContactsPage;

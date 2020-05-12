@@ -4,12 +4,12 @@ import { contactsSelector, fetchContacts, setSearchText, contactDetailsOpened, s
 import { Contact } from 'models/Contact';
 import { useSelector, useDispatch } from 'react-redux';
 import ContactsListItem from './ContactListItem';
-import Loader from 'components/Loader';
 import { MAX_FETCH_BATCH_SIZE, MAX_TOTAL_CONTACTS } from '../../constants';
 import Banner from 'components/Banner';
 import SearchBar from 'components/SearchBar';
 import { Link } from 'react-router-dom';
 import { useHasScrolledToBottom } from 'hooks/useHasScrolledToBottom';
+import PlaceholderInfo from 'components/PlaceholderInfo';
 
 const Container = styled.div`
   display: flex;
@@ -18,14 +18,6 @@ const Container = styled.div`
   list-style: none;
   padding: 0;
   overflow-y: auto;
-`;
-
-const CenteredContainer = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 `;
 
 const List = styled.ul`
@@ -55,18 +47,12 @@ const ContactsList: React.FunctionComponent = () => {
   const { current } = contactsListRef;
   const hasScrolledToBottom = useHasScrolledToBottom(current);
 
-  // Handle fetching users
+  // Handle fetching more users
   useEffect(() => {
-    // Load the initial users but only if we don't already have any.
-    if (contacts.length === 0) {
-      dispatch(fetchContacts());
-    }
-
     // Don't fetch any more users if we've already reached the max allowed.
     if (numContactsToDisplay >= MAX_TOTAL_CONTACTS) {
       return;
     }
-
     /**
      * We always want to pre-fetch more contacts to give a better user experience.
      * numContactsToDisplay is updated each time the user scrolls to bottom, this will
@@ -90,41 +76,20 @@ const ContactsList: React.FunctionComponent = () => {
     }
   }, [hasScrolledToBottom]);
 
-  /**
-   * Renders the appropriate component depending on the state of the app.
-   */
   const renderContacts = () => {
-    /**
-     * Contacts list is loading so display a friendly message to the user.
-     * Only do this if contacts.length === 0, otherwise it will be displayed when we pre-fetch contacts.
-     */
-    if (isLoading && searchedContacts.length === 0) {
-      return (
-        <CenteredContainer>
-          <Loader text={'Loading contacts...'} />
-        </CenteredContainer>
-      );
+    if (isLoading || hasErrors) {
+      return null;
     }
 
-    /**
-     * Display a friendly error message to the user if something went wrong during the contacts fetch or
-     * loading has finished but no contacts were returned.
-     */
-    if (hasErrors || (!isLoading && searchedContacts.length === 0)) {
-      return (
-        <CenteredContainer>
-          <span>{'No contacts found 😥'}</span>
-        </CenteredContainer>
-      );
+    if (searchedContacts.length === 0) {
+      return <PlaceholderInfo icon={'😢‍'} text={'No contacts found'} />;
     }
 
     const onContactClicked = () => {
       dispatch(contactDetailsOpened());
     };
 
-    /**
-     * Finally iterate through each contact and display them as list items.
-     */
+    // Iterate through each contact and display them as list items.
     return searchedContacts.map((contact: Contact, index: number) => {
       /**
        * Only render the list items that we are allowed to display.
@@ -150,11 +115,6 @@ const ContactsList: React.FunctionComponent = () => {
     });
   };
 
-  /**
-   * Update the state every time the search text changes. This allows us to persist the search when the user flicks between routes.
-   *
-   * @param {string} text The current search text
-   */
   const onSearchTextChanged = (text: string) => {
     dispatch(setSearchText(text));
   };

@@ -1,9 +1,3 @@
-/**
- * @slice
- *
- * This is the contacts slice utilizing Redux Toolkit.
- *
- */
 import { createSlice, PayloadAction, Dispatch } from '@reduxjs/toolkit';
 import { RootState } from '.';
 import { selectedNationalityCodes } from './settingsSlice';
@@ -19,7 +13,7 @@ export interface ContactsState {
 }
 
 export const initialState: ContactsState = {
-  isLoading: false,
+  isLoading: true,
   hasErrors: false,
   contacts: [],
   searchText: '',
@@ -37,9 +31,6 @@ const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
   reducers: {
-    getContacts: (state) => {
-      state.isLoading = true;
-    },
     getContactsSuccess: (state, action: PayloadAction<Contact[]>) => {
       // Mutating the state directly is usually bad but the 'immer' package, which comes with Redux Toolkit, handles this for us.
       state.contacts = [...state.contacts, ...action.payload];
@@ -67,7 +58,6 @@ const contactsSlice = createSlice({
 
 // Actions generated from the slice. We don't have to define them above since they use the same names as the reducers.
 export const {
-  getContacts,
   getContactsSuccess,
   getContactsFailure,
   resetContactsList,
@@ -98,8 +88,6 @@ export default contactsSlice.reducer;
 export function fetchContacts() {
   return async (dispatch: Dispatch, getState: () => RootState) => {
     try {
-      dispatch(getContacts());
-
       // Get the selected nationality codes via the selectedNationalityCodes selector
       const selectedNationalities: string[] = selectedNationalityCodes(getState());
 

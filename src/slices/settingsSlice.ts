@@ -1,9 +1,3 @@
-/**
- * @slice
- *
- * This is the settings slice utilizing Redux Toolkit.
- *
- */
 import { createSlice, PayloadAction, createSelector } from '@reduxjs/toolkit';
 import { RootState } from '.';
 import { defaultNationalities } from 'data/defaultNationalities';

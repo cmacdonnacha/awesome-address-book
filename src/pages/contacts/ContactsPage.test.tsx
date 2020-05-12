@@ -2,7 +2,7 @@ import React from 'react';
 import { waitFor, screen, fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
 import { renderWithRouterRedux } from '../../utils/test-utils';
 import axios from 'axios';
-import ContactsList from './ContactsList';
+import ContactsPage from './ContactsPage';
 
 // Mock the Axios module. This ensure we don't call a real rest api while running tests.
 jest.mock('axios');
@@ -75,87 +75,84 @@ beforeEach(() => axiosMock.get.mockReset());
 
 describe('Fetching Contacts', () => {
   test('should find a contact within the list', async () => {
-    // Arrange
+    // Setup
     fetchMockContacts();
-    renderWithRouterRedux(<ContactsList />, ['/contacts']);
+    renderWithRouterRedux(<ContactsPage />, ['/contacts']);
 
-    // Act
+    // Wait for text to be rendered
     const elements = await waitFor(() => screen.getAllByText('Omar Little'));
 
-    // Assert
+    // Contact should be displayed
     expect(axiosMock.get).toHaveBeenCalledTimes(1);
-    expect(elements.length).toBeGreaterThan(0);
+    expect(elements[0]).toBeInTheDocument();
   });
 
-  test('should display contact name in two places', async () => {
-    // Arrange
+  test('should display contact name in 2 place', async () => {
+    // Setup
     fetchMockContacts();
-    renderWithRouterRedux(<ContactsList />, ['/contacts']);
+    renderWithRouterRedux(<ContactsPage />, ['/contacts']);
 
-    // Act
-    const element = await waitFor(() => screen.getByText('Omar Little'));
+    // Wait for text to be rendered
+    const elements = await waitFor(() => screen.getAllByText('Omar Little'));
 
-    // Assert
-    expect(axiosMock.get).toHaveBeenCalledTimes(1);
-    expect(element).toBeInTheDocument();
+    // Should be displayed in both Contacts List and Contact Details
+    expect(elements.length).toBe(2);
   });
 
   test('should display loading text while waiting for contacts to load', async () => {
-    // Arrange
+    // Setup
     fetchMockContacts();
-    renderWithRouterRedux(<ContactsList />, ['/contacts']);
+    renderWithRouterRedux(<ContactsPage />, ['/contacts']);
 
-    // Act
-    await waitFor(() => {
-      // Assert
-      expect(screen.getByText('Loading contacts...')).toBeInTheDocument();
-    });
+    // Loading text should be displayed
+    expect(screen.getByText('Loading contacts...')).toBeInTheDocument();
   });
 
   test('should display error message when no contacts found', async () => {
-    // Arrange
+    // Setup
     fetchMockNoContacts();
-    renderWithRouterRedux(<ContactsList />, ['/contacts']);
+    renderWithRouterRedux(<ContactsPage />, ['/contacts']);
 
-    // Act
+    // Wait for text to be rendered
     const element = await waitFor(() => screen.getByText('No contacts found', { exact: false }));
 
-    // Assert
-    expect(axiosMock.get).toHaveBeenCalledTimes(1);
+    // Text should be displayed
     expect(element).toBeInTheDocument();
   });
 
   test('should display error message when an error occurs while fetching contacts', async () => {
-    // Arrange
-    renderWithRouterRedux(<ContactsList />, ['/contacts']);
+    // Setup
+    renderWithRouterRedux(<ContactsPage />, ['/contacts']);
 
-    // Act
-    const element = await waitFor(() => screen.getByText('No contacts found', { exact: false }));
+    // Wait for error message to be displayed
+    const element = await waitFor(() => screen.getByText('Something went wrong', { exact: false }));
 
-    // Assert
-    expect(axiosMock.get).toHaveBeenCalledTimes(1);
+    // Check that error message was displayed
     expect(element).toBeInTheDocument();
   });
 });
 
 describe('Searching Contacts', () => {
-  test('should have empty search input by default', () => {
-    // Arrange
-    renderWithRouterRedux(<ContactsList />, ['/contacts']);
+  test('should have empty search input by default', async () => {
+    // Setup
+    fetchMockContacts();
+    renderWithRouterRedux(<ContactsPage />, ['/contacts']);
 
-    // Act
+    // Wait for loading text to disappear so we know the mocked contacts have been fetched and displayed
+    await waitForElementToBeRemoved(() => screen.queryByText('Loading contacts', { exact: false }));
+
+    // Find search input
     const searchInput = screen.getByRole('searchbox') as HTMLInputElement;
 
-    // Assert
+    // Check that the default value is empty
     expect(searchInput.value).toBe('');
   });
 
   test('should display correct search results', async () => {
-    // Arrange
+    // Setup
     fetchMockContacts();
-    renderWithRouterRedux(<ContactsList />, ['/contacts']);
+    renderWithRouterRedux(<ContactsPage />, ['/contacts']);
 
-    // Arrange
     // Wait for loading text to disappear so we know the mocked contacts have been fetched and displayed
     await waitForElementToBeRemoved(() => screen.queryByText('Loading contacts', { exact: false }));
 
@@ -163,18 +160,23 @@ describe('Searching Contacts', () => {
     const searchInput = screen.getByRole('searchbox');
     fireEvent.change(searchInput, { target: { value: 'Jimmy' } });
 
-    // Assert
+    // Click on the result
+    const result = screen.getAllByText('Jimmy McNulty')[0];
+    result.click();
+
+    // Check that the correct results have been rendered.
+    // Note: The element will be found in both the contacts list & details so just check the first one.
     expect(screen.getAllByText('Jimmy McNulty')[0]).toBeInTheDocument();
+
     // Use queryByText when you want to check if an element is NOT present. Using getByText would throw an error as it wouldn't find the element.
     expect(screen.queryByText('Omar Little')).not.toBeInTheDocument();
   });
 
   test('should clear search results correctly', async () => {
-    // Arrange
+    // Setup
     fetchMockContacts();
-    renderWithRouterRedux(<ContactsList />, ['/contacts']);
+    renderWithRouterRedux(<ContactsPage />, ['/contacts']);
 
-    // Arrange
     // Wait for loading text to disappear so we know the mocked contacts have been fetched and displayed
     await waitForElementToBeRemoved(() => screen.queryByText('Loading contacts', { exact: false }));
 
@@ -183,15 +185,32 @@ describe('Searching Contacts', () => {
     fireEvent.change(searchInput, { target: { value: 'Jimmy' } });
     screen.getByText('Jimmy McNulty').click();
 
-    // Assert
-    expect(screen.getByText('Jimmy McNulty')).toBeInTheDocument();
+    // Check that the correct results have been rendered.
+    // Note: The element will be found in both the contacts list & details so just check the first one.
+    expect(screen.getAllByText('Jimmy McNulty')[0]).toBeInTheDocument();
     expect(screen.queryByText('Omar Little')).not.toBeInTheDocument();
 
     // Clear search text
     fireEvent.change(searchInput, { target: { value: '' } });
 
     // Should now display all contacts again
-    expect(screen.getByText('Jimmy McNulty')).toBeInTheDocument();
-    expect(screen.getByText('Omar Little')).toBeInTheDocument();
+    expect(screen.getAllByText('Jimmy McNulty')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('Omar Little')[0]).toBeInTheDocument();
+  });
+
+  test('should display friendly message when no contacts found after searching', async () => {
+    // Setup
+    fetchMockContacts();
+    renderWithRouterRedux(<ContactsPage />, ['/contacts']);
+
+    // Wait for loading text to disappear so we know the mocked contacts have been fetched and displayed
+    await waitForElementToBeRemoved(() => screen.queryByText('Loading contacts', { exact: false }));
+
+    // Type in some bad search text
+    const searchInput = screen.getByRole('searchbox');
+    fireEvent.change(searchInput, { target: { value: 'bla bla bla' } });
+
+    // Text should be displayed
+    expect(screen.getByText('No contacts found')).toBeInTheDocument();
   });
 });
