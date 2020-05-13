@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import Page from 'components/Page';
-import ContactsList from './ContactsList';
+import ContactsList from './contacts-list/ContactsList';
 import styled from 'styled-components/macro';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { contactsSelector, fetchContacts } from 'slices/contactsSlice';
 import { screenSize } from 'constants/screenSizes';
-import ContactDetails from './ContactDetails';
+import ContactDetails from './contact-details/ContactDetails';
 import { colours } from 'constants/colours';
 import Loader from 'components/Loader';
 import PlaceholderInfo from 'components/PlaceholderInfo';

@@ -4,7 +4,7 @@ import { contactsSelector, fetchContacts, setSearchText, contactDetailsOpened, s
 import { Contact } from 'models/Contact';
 import { useSelector, useDispatch } from 'react-redux';
 import ContactsListItem from './ContactListItem';
-import { MAX_FETCH_BATCH_SIZE, MAX_TOTAL_CONTACTS } from '../../constants';
+import { MAX_FETCH_BATCH_SIZE, MAX_TOTAL_CONTACTS } from '../../../constants';
 import Banner from 'components/Banner';
 import SearchBar from 'components/SearchBar';
 import { Link } from 'react-router-dom';

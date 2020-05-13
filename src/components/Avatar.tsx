@@ -13,7 +13,7 @@ import styled from 'styled-components/macro';
 interface Props {
   src: string;
   size?: string;
-  alt?: string;
+  alt: string;
 }
 
 /**
@@ -23,9 +23,8 @@ interface Props {
  */
 const Image = styled.img<Props>`
   border-radius: 50%;
-  min-height: ${(props) => props.size};
   height: ${(props) => props.size};
-  width: ${(props) => props.size};
+  min-width: ${(props) => props.size};
 `;
 
 const Avatar = ({ src, size, alt }: Props) => {

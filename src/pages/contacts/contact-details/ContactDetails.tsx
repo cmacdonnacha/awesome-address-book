@@ -3,15 +3,14 @@ import styled from 'styled-components/macro';
 import { useSelector, useDispatch } from 'react-redux';
 import { contactsSelector, contactDetailsClosed } from 'slices/contactsSlice';
 import { ArrowIosBackOutline as BackIcon } from '@styled-icons/evaicons-outline/ArrowIosBackOutline';
-import { Chat as ChatIcon } from '@styled-icons/heroicons-solid/Chat';
 import { Mobile as MobileIcon } from '@styled-icons/entypo/Mobile';
 import { Home as HomeIcon } from '@styled-icons/entypo/Home';
 import { Envelope as EmailIcon } from '@styled-icons/boxicons-solid/Envelope';
 import { screenSize } from 'constants/screenSizes';
 import { colours } from 'constants/colours';
-import Avatar from 'components/Avatar';
 import { Contact } from 'models/Contact';
-import Button from 'components/Button';
+import RecentConversations from './RecentConversations';
+import ContactDetailsHeader from './ContactDetailsHeader';
 
 interface RouterProps {
   match: {
@@ -31,60 +30,17 @@ const DetailsContainer = styled.div`
   padding: 20px 40px;
 `;
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Header = styled.header`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-
-const HeaderDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-left: 30px;
-`;
-
-const UserStatus = styled.span`
-  display: block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: ${colours.green};
-  margin-left: 10px;
-`;
-
 const BackButton = styled.button`
   text-align: start;
   background: none;
   border: none;
   cursor: pointer;
   min-height: 50px;
-  outline: none;
   margin-left: 10px;
 
   @media (min-width: ${screenSize.medium}) {
     display: none;
   }
-`;
-
-const ContactName = styled.h1`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 10px 0 5px 0;
-`;
-
-const ContactCountry = styled.span`
-  margin-bottom: 12px;
 `;
 
 const Divider = styled.div`
@@ -106,7 +62,7 @@ const Section = styled.section`
 `;
 
 const SectionHeader = styled.h3`
-  color: ${colours.grey4};
+  color: ${colours.navy};
   margin-bottom: 20px;
 `;
 
@@ -150,36 +106,17 @@ const ContactDetails = ({ match }: RouterProps) => {
 
   return (
     <MainContainer>
-      <BackButton onClick={() => dispatch(contactDetailsClosed())}>
+      <BackButton onClick={() => dispatch(contactDetailsClosed())} aria-label={'Back Button'}>
         <BackIcon size={30} />
       </BackButton>
 
       <DetailsContainer>
-        <Header>
-          <Avatar src={selectedContact.avatarUrl} size={'8rem'} />
-
-          <HeaderDetails>
-            <Column>
-              <ContactName>
-                {selectedContact.name.first} {selectedContact.name.last}
-                <UserStatus />
-              </ContactName>
-              <ContactCountry>{selectedContact.location.country}</ContactCountry>
-            </Column>
-
-            <Row>
-              <Button>
-                <ChatIcon size={18} />
-                Chat
-              </Button>
-            </Row>
-          </HeaderDetails>
-        </Header>
+        <ContactDetailsHeader contact={selectedContact} />
 
         <Divider />
 
         <Section>
-          <SectionHeader>BIO</SectionHeader>
+          <SectionHeader>Bio</SectionHeader>
           <p>
             {
               "I like romantic comedies and long walks on the beach 🌴 I'm a Professional procrastinator. Shout-out to my Mom's friends who like and share all my pictures."
@@ -190,7 +127,7 @@ const ContactDetails = ({ match }: RouterProps) => {
         <Divider />
 
         <Section>
-          <SectionHeader>Contact Details</SectionHeader>
+          <SectionHeader>Contact</SectionHeader>
           <ContactDetailsContainer>
             <ContactDetailRow>
               <HomeIcon size={20} />
@@ -200,14 +137,12 @@ const ContactDetails = ({ match }: RouterProps) => {
 
             <ContactDetailRow>
               <MobileIcon size={20} />
-
               <ContactDetailLabel>Work:</ContactDetailLabel>
               <ContactDetailValue>{selectedContact.phone}</ContactDetailValue>
             </ContactDetailRow>
 
             <ContactDetailRow>
               <EmailIcon size={20} />
-
               <ContactDetailLabel>Email:</ContactDetailLabel>
               <ContactDetailValue>{selectedContact.email}</ContactDetailValue>
             </ContactDetailRow>
@@ -215,6 +150,11 @@ const ContactDetails = ({ match }: RouterProps) => {
         </Section>
 
         <Divider />
+
+        <Section>
+          <SectionHeader>Recent Conversations</SectionHeader>
+          <RecentConversations contact={selectedContact} />
+        </Section>
       </DetailsContainer>
     </MainContainer>
   );
