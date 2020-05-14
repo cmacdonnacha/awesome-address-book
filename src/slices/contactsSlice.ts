@@ -13,7 +13,7 @@ export interface ContactsState {
 }
 
 export const initialState: ContactsState = {
-  isLoading: true,
+  isLoading: false,
   hasErrors: false,
   contacts: [],
   searchText: '',
@@ -31,20 +31,23 @@ const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
   reducers: {
+    getContactsStarted: (state) => {
+      state.isLoading = true;
+    },
     getContactsSuccess: (state, action: PayloadAction<Contact[]>) => {
       // Mutating the state directly is usually bad but the 'immer' package, which comes with Redux Toolkit, handles this for us.
       state.contacts = [...state.contacts, ...action.payload];
       state.isLoading = false;
       state.hasErrors = false;
     },
-    getContactsFailure: (state) => {
+    getContactsFailed: (state) => {
       state.isLoading = false;
       state.hasErrors = true;
     },
-    resetContactsList: (state) => {
+    contactsListCleared: (state) => {
       state.contacts = [];
     },
-    setSearchText: (state, action: PayloadAction<string>) => {
+    searchTextUpdated: (state, action: PayloadAction<string>) => {
       state.searchText = action.payload;
     },
     contactDetailsOpened: (state) => {
@@ -58,10 +61,11 @@ const contactsSlice = createSlice({
 
 // Actions generated from the slice. We don't have to define them above since they use the same names as the reducers.
 export const {
+  getContactsStarted,
   getContactsSuccess,
-  getContactsFailure,
-  resetContactsList,
-  setSearchText,
+  getContactsFailed,
+  contactsListCleared,
+  searchTextUpdated,
   contactDetailsOpened,
   contactDetailsClosed,
 } = contactsSlice.actions;
@@ -88,6 +92,8 @@ export default contactsSlice.reducer;
 export function fetchContacts() {
   return async (dispatch: Dispatch, getState: () => RootState) => {
     try {
+      dispatch(getContactsStarted());
+
       // Get the selected nationality codes via the selectedNationalityCodes selector
       const selectedNationalities: string[] = selectedNationalityCodes(getState());
 
@@ -99,7 +105,7 @@ export function fetchContacts() {
 
       dispatch(getContactsSuccess(contacts));
     } catch (error) {
-      dispatch(getContactsFailure());
+      dispatch(getContactsFailed());
     }
   };
 }

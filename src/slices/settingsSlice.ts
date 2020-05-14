@@ -22,7 +22,7 @@ const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    getSelectedNationalities: (state: SettingsState, action: PayloadAction<Nationality[]>) => {
+    selectedNationalitiesUpdated: (state: SettingsState, action: PayloadAction<Nationality[]>) => {
       // Mutating the state directly is usually bad but the 'immer' package, which comes with Redux Toolkit, handles this for us.
       state.nationalities = action.payload;
     },
@@ -30,7 +30,7 @@ const settingsSlice = createSlice({
 });
 
 // Three actions generated from the slice. We don't have to define them above since they use the same names as the reducers.
-export const { getSelectedNationalities } = settingsSlice.actions;
+export const { selectedNationalitiesUpdated } = settingsSlice.actions;
 
 /**
  * A selector which we'll use to access the 'settings' root state from a React component instead of using mapStateToProps (the old way).

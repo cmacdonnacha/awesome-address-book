@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
-import { contactsSelector, fetchContacts, setSearchText, contactDetailsOpened, searchedContactsSelector } from 'slices/contactsSlice';
+import { contactsSelector, fetchContacts, searchTextUpdated, contactDetailsOpened, searchedContactsSelector } from 'slices/contactsSlice';
 import { Contact } from 'models/Contact';
 import { useSelector, useDispatch } from 'react-redux';
 import ContactsListItem from './ContactListItem';
@@ -77,7 +77,7 @@ const ContactsList: React.FunctionComponent = () => {
   }, [hasScrolledToBottom]);
 
   const renderContacts = () => {
-    if (isLoading || hasErrors) {
+    if ((isLoading && contacts.length === 0) || hasErrors) {
       return null;
     }
 
@@ -116,7 +116,7 @@ const ContactsList: React.FunctionComponent = () => {
   };
 
   const onSearchTextChanged = (text: string) => {
-    dispatch(setSearchText(text));
+    dispatch(searchTextUpdated(text));
   };
 
   return (

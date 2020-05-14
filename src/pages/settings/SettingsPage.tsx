@@ -1,25 +1,14 @@
-/**
- * @component
- *
- * This component displays the Settings page route
- *
- */
 import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 import Page from 'components/Page';
 import NationalitiesSelector from './NationalitiesSelector';
 import Button from 'components/Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { nationalitiesSelector, getSelectedNationalities } from 'slices/settingsSlice';
+import { nationalitiesSelector, selectedNationalitiesUpdated } from 'slices/settingsSlice';
 import { Nationality } from 'models/Nationality';
-import { resetContactsList, fetchContacts } from 'slices/contactsSlice';
+import { contactsListCleared, fetchContacts } from 'slices/contactsSlice';
 import { screenSize } from 'constants/screenSizes';
 
-/**
- * Styled Components
- *
- * See https://styled-components.com/
- */
 const Container = styled.div`
   margin: 20px;
 `;
@@ -59,10 +48,10 @@ const SettingsPage: React.FunctionComponent = () => {
 
   const saveSettings = () => {
     // Dispatch an action to update the nationalities in the redux store
-    dispatch(getSelectedNationalities(nationalities));
+    dispatch(selectedNationalitiesUpdated(nationalities));
 
-    // Reset the contacts list and fetch new ones now that the nationalities have been updated
-    dispatch(resetContactsList());
+    // Clear the contacts list and fetch new ones now that the nationalities have been updated
+    dispatch(contactsListCleared());
     dispatch(fetchContacts());
 
     // Show "Settings Saved" message

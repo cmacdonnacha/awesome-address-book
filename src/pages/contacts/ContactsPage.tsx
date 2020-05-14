@@ -61,7 +61,8 @@ const ContactsPage: React.FunctionComponent = () => {
   }, [dispatch, contacts.length]);
 
   const renderPageContent = () => {
-    if (isLoading) {
+    // Only show the loading indicator on initial load
+    if (isLoading && contacts.length === 0) {
       return <Loader text={'Loading contacts...'} />;
     }
 
