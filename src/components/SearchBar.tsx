@@ -3,9 +3,10 @@ import styled from 'styled-components/macro';
 import { colours } from 'constants/colours';
 
 interface Props {
-  type?: string;
   placeholder?: string;
   value?: string;
+  ariaLabel?: string;
+  type?: string;
   onSearchTextChanged: (text: string) => void;
 }
 
@@ -22,8 +23,8 @@ const Input = styled.input`
   }
 `;
 
-const SearchBar = (props: Props) => {
-  const defaultValue = props.value || '';
+const SearchBar = ({ placeholder, value, ariaLabel, onSearchTextChanged, type }: Props) => {
+  const defaultValue = value || '';
   const [inputText, setInputText] = useState(defaultValue);
 
   const onTextChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,10 +32,10 @@ const SearchBar = (props: Props) => {
     setInputText(e.target.value);
 
     // Also let the parent know the search text has changed if used.
-    props.onSearchTextChanged(e.target.value);
+    onSearchTextChanged(e.target.value);
   };
 
-  return <Input value={inputText} onChange={onTextChanged} {...props}></Input>;
+  return <Input value={inputText} onChange={onTextChanged} placeholder={placeholder} aria-label={ariaLabel} type={type}></Input>;
 };
 
 export default SearchBar;
