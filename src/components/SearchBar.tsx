@@ -1,31 +1,14 @@
-/**
- * @component
- *
- * Displays a generic search bar
- *
- * @param {string} placeholder Placeholder text to set on the input
- * @param {string} value Sets the value of the input if it's passed. Otherwise it's empty. This is useful when a parent component wants to handle the search text state.
- * @param {string} ariaLabel The aria label of the input to allow screen readers to know the purpose of the input.
- * @param {callback} onSearchTextChanged Fires when the search input text has changed.
- *
- */
 import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 import { colours } from 'constants/colours';
 
 interface Props {
+  type?: string;
   placeholder?: string;
   value?: string;
-  ariaLabel?: string;
-  type?: string;
   onSearchTextChanged: (text: string) => void;
 }
 
-/**
- * Styled Components
- *
- * See https://styled-components.com/
- */
 const Input = styled.input`
   min-height: 40px;
   border-radius: 3px;
@@ -39,8 +22,8 @@ const Input = styled.input`
   }
 `;
 
-const SearchBar = ({ placeholder, value, ariaLabel, onSearchTextChanged, type }: Props) => {
-  const defaultValue = value || '';
+const SearchBar = (props: Props) => {
+  const defaultValue = props.value || '';
   const [inputText, setInputText] = useState(defaultValue);
 
   const onTextChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,10 +31,10 @@ const SearchBar = ({ placeholder, value, ariaLabel, onSearchTextChanged, type }:
     setInputText(e.target.value);
 
     // Also let the parent know the search text has changed if used.
-    onSearchTextChanged(e.target.value);
+    props.onSearchTextChanged(e.target.value);
   };
 
-  return <Input value={inputText} onChange={onTextChanged} placeholder={placeholder} aria-label={ariaLabel} type={type}></Input>;
+  return <Input value={inputText} onChange={onTextChanged} {...props}></Input>;
 };
 
 export default SearchBar;

@@ -1,33 +1,19 @@
-/**
- * @component
- *
- * This component allows the user to select which nationalities to fetch when loading contacts.
- *
- * @param {Nationality[]} nationalities Array of available nationalities the user can choose from.
- * @param {callback} onNationalitiesChanged Fires when a nationality has been checked/unchecked.
- *
- */
 import React from 'react';
 import styled from 'styled-components/macro';
 import { Nationality } from 'models/Nationality';
+import Checkbox from 'components/Checkbox';
 
 interface Props {
   nationalities: Nationality[];
   onNationalitiesChanged: (nationalities: Nationality[]) => void;
 }
 
-/**
- * Styled Components
- *
- * See https://styled-components.com/
- */
 const Container = styled.div`
   display: flex;
   background-color: white;
 `;
 
 const List = styled.ul`
-  margin-top: 20px;
   padding: 0;
 `;
 
@@ -35,10 +21,6 @@ const ListItem = styled.li`
   list-style: none;
   padding: 0;
   margin: 15px 0;
-`;
-
-const Label = styled.label`
-  margin-left: 10px;
 `;
 
 const NationalitiesSelector = ({ nationalities, onNationalitiesChanged }: Props) => {
@@ -64,13 +46,12 @@ const NationalitiesSelector = ({ nationalities, onNationalitiesChanged }: Props)
         {nationalities.map((nationality: Nationality) => {
           return (
             <ListItem key={nationality.code}>
-              <input
+              <Checkbox
+                onClick={() => onNationalityClicked(nationality)}
                 id={nationality.code}
-                type="checkbox"
-                checked={nationality.isSelected}
-                onChange={() => onNationalityClicked(nationality)}
-              ></input>
-              <Label htmlFor={nationality.code}>{nationality.label}</Label>
+                label={nationality.label}
+                isChecked={nationality.isSelected}
+              />
             </ListItem>
           );
         })}

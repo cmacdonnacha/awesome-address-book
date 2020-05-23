@@ -9,20 +9,22 @@ import { Nationality } from 'models/Nationality';
 import { contactsListCleared, fetchContacts } from 'slices/contactsSlice';
 import { screenSize } from 'constants/screenSizes';
 
-const Container = styled.div`
-  margin: 20px;
-`;
-
-const SettingsInfoText = styled.p`
+const SelectNationalitiesText = styled.h3`
   display: flex;
+  margin-top: 40px;
 `;
 
 const SettingsSavedMessage = styled.span`
-  margin-top: 10px;
+  display: flex;
   text-align: left;
   font-size: 1.5rem;
   font-weight: bold;
-  margin: 40px 0 0 10px;
+  margin-top: 40px;
+
+  /* Center on smaller screens */
+  @media (max-width: ${screenSize.medium}) {
+    justify-content: center;
+  }
 `;
 
 const Footer = styled.footer`
@@ -31,12 +33,11 @@ const Footer = styled.footer`
   flex: 1;
   max-height: 50px;
 
-  & button {
-    flex: 1;
-  }
-
-  @media (min-width: ${screenSize.medium}) {
-    max-width: 120px;
+  /* Button fills width on smaller screens */
+  @media (max-width: ${screenSize.medium}) {
+    & button {
+      flex: 1;
+    }
   }
 `;
 
@@ -66,16 +67,12 @@ const SettingsPage: React.FunctionComponent = () => {
 
   return (
     <Page heading="Settings">
-      <Container>
-        <SettingsInfoText>Select nationalities to be included in your address book:</SettingsInfoText>
-        <NationalitiesSelector nationalities={nationalities} onNationalitiesChanged={onNationalitiesChanged} />
-        <Footer>
-          <Button onClick={saveSettings} size={40}>
-            Save
-          </Button>
-        </Footer>
-        {showSettingsSavedMessage && <SettingsSavedMessage>{'Settings saved! 👌'}</SettingsSavedMessage>}
-      </Container>
+      <SelectNationalitiesText>Select nationalities to be included in your address book:</SelectNationalitiesText>
+      <NationalitiesSelector nationalities={nationalities} onNationalitiesChanged={onNationalitiesChanged} />
+      <Footer>
+        <Button onClick={saveSettings}>Save</Button>
+      </Footer>
+      {showSettingsSavedMessage && <SettingsSavedMessage>{'Settings saved! 👌'}</SettingsSavedMessage>}
     </Page>
   );
 };

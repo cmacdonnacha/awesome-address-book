@@ -31,13 +31,12 @@
 
 ## Features
 
-- Contacts search with infinite scrolling
-- Nationalities selection
-- Mobile friendly / Responsive design
-- Accessability compliant
-- Unit & Integration tests
-- Popup modal to display contact details
-- Sidebar navigation
+🔍 Contacts search with infinite scrolling <br>
+🧔 Nationalities selection <br>
+📞 Mobile friendly / Responsive design <br>
+♿ Accessability compliant <br>
+🧪 Unit & Integration tests <br>
+🧭 Sidebar navigation
 
 &nbsp;
 
