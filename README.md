@@ -31,11 +31,11 @@
 
 ## Features
 
-<span>🔍 &nbsp; Contacts search with infinite scrolling</span>
-<span>🧔 &nbsp; Nationalities selection</span>
-<span>📞 &nbsp; Mobile friendly / Responsive design</span>
-<span>♿ &nbsp; Accessability compliant</span>
-<span>🧪 &nbsp; Unit & Integration tests</span>
+<span>🔍 &nbsp; Contacts search with infinite scrolling</span></br>
+<span>🧔 &nbsp; Nationalities selection</span></br>
+<span>📞 &nbsp; Mobile friendly / Responsive design</span></br>
+<span>♿ &nbsp; Accessability compliant</span></br>
+<span>🧪 &nbsp; Unit & Integration tests</span></br>
 <span>🧭 &nbsp; Sidebar navigation</span>
 
 &nbsp;
