@@ -1,9 +1,3 @@
-/**
- * @component
- *
- * This main component which is the first entry for the app
- *
- */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
@@ -28,10 +22,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     height: 100%;
     margin: 0;
-    font-family: 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-      'Droid Sans', 'Helvetica Neue', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Inter', 'system-ui', '-apple-system', sans-serif;
   }
 `;
 
