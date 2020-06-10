@@ -19,6 +19,7 @@ const StyledCheckbox = styled.input`
   cursor: pointer;
   opacity: 0;
   position: absolute;
+  margin: 0 0 0 -10px;
 
   /* Change styling of checkbox when "checked" */
   &:checked + label::before {

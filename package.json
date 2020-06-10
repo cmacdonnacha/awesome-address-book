@@ -12,7 +12,10 @@
     "eject": "react-scripts eject",
     "lint": "tsc --noEmit && eslint . --ext .ts,.tsx",
     "test:no-watch": "react-scripts test --watchAll=false --env=jest-environment-jsdom-sixteen",
-    "test:coverage": "react-scripts test --coverage --watchAll=false --env=jest-environment-jsdom-sixteen"
+    "test:coverage": "react-scripts test --coverage --watchAll=false --env=jest-environment-jsdom-sixteen",
+    "test:e2e": "cypress run",
+    "test:e2e:ci": "cypress run --record --key ab8af296-08ae-401a-8e19-1a13c6b31eba --config baseUrl=https://cmacdonnacha.github.io/awesome-address-book",
+    "test:e2e:open": "cypress open"
   },
   "husky": {
     "hooks": {
@@ -58,6 +61,7 @@
     "typescript": "^3.8.3"
   },
   "devDependencies": {
+    "@testing-library/cypress": "^6.0.0",
     "@testing-library/jest-dom": "^5.3.0",
     "@testing-library/react": "^10.0.2",
     "@testing-library/user-event": "^10.0.1",
@@ -71,6 +75,7 @@
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
     "babel-plugin-macros": "^2.8.0",
+    "cypress": "^4.7.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.1",

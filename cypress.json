@@ -1,0 +1,8 @@
+{
+  "projectId": "qcywts",
+  "baseUrl": "http://localhost:3000/awesome-address-book",
+  "env": {
+    "MAX_FETCH_BATCH_SIZE": 10
+  },
+  "integrationFolder": "cypress/tests"
+}

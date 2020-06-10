@@ -1,12 +1,3 @@
-/**
- * @component
- *
- * Displays a generic search bar
- *
- * @param {boolean} isSidebarOpen Tell us if the sidebar is currently open.
- * @param {callback} onLinkClicked Fires when the sidebar link is clicked.
- *
- */
 import React from 'react';
 import styled from 'styled-components/macro';
 import { NavLink } from 'react-router-dom';
@@ -22,11 +13,6 @@ interface Props {
   onLinkClicked?: () => void;
 }
 
-/**
- * Styled Components
- *
- * See https://styled-components.com/
- */
 const Container = styled.nav<Props>`
   grid-area: sidebar;
   background-color: ${colours.grey};

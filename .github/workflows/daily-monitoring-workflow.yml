@@ -1,10 +1,10 @@
-name: Continuous Integration
+name: Daily Monitoring
 
+## Runs every day at 1pm
 on:
-  push:
-    branches: [master]
+  schedule:
+    - cron: '* 13 * * *'
 
-## Run test, lint and build jobs in parallel to speed up the build time.
 jobs:
   test:
     name: Test
@@ -27,9 +27,7 @@ jobs:
         run: npm run test:no-watch
 
       - name: Run end-to-end tests
-        run: |
-          npm start
-          npm run test:e2e
+        run: npm run test:e2e:ci
 
   lint:
     name: Lint
@@ -77,26 +75,3 @@ jobs:
         with:
           name: build
           path: build
-
-  deploy:
-    name: Deploy
-    # Only deploy if these other jobs have completed successfully
-    needs: [test, lint, build]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      # Download the build folder from the earlier job and use it to deploy
-      - name: Download build folder
-        uses: actions/download-artifact@v1
-        with:
-          name: build
-
-      # Deploy to github pages
-      - name: Deploy build
-        uses: JamesIves/github-pages-deploy-action@releases/v3
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: build

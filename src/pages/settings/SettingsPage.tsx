@@ -9,7 +9,7 @@ import { Nationality } from 'models/Nationality';
 import { contactsListCleared, fetchContacts } from 'slices/contactsSlice';
 import { screenSize } from 'constants/screenSizes';
 
-const SelectNationalitiesText = styled.h3`
+const SelectNationalitiesText = styled.h4`
   display: flex;
   margin-top: 40px;
 `;
