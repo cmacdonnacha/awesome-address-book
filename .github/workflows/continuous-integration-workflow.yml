@@ -17,7 +17,6 @@ jobs:
       - name: Setup Node.js for use with actions
         uses: actions/setup-node@v1.1.0
         with:
-          node-version: '12.x'
           version: '12.x'
 
       - name: Install node modules
@@ -44,7 +43,6 @@ jobs:
       - name: Setup Node.js for use with actions
         uses: actions/setup-node@v1.1.0
         with:
-          node-version: '12.x'
           version: '12.x'
 
       - name: Install node modules
@@ -64,7 +62,6 @@ jobs:
       - name: Setup Node.js for use with actions
         uses: actions/setup-node@v1.1.0
         with:
-          node-version: '12.x'
           version: '12.x'
 
       - name: Install node modules
