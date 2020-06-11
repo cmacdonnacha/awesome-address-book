@@ -3,7 +3,7 @@ name: Daily Monitoring
 ## Runs every day at 1pm
 on:
   schedule:
-    - cron: '0 15 * * *'
+    - cron: '0 17 * * *'
 
 jobs:
   test:
