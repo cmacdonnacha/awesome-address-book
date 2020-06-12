@@ -17,7 +17,6 @@ jobs:
       - name: Setup Node.js for use with actions
         uses: actions/setup-node@v1.1.0
         with:
-          node-version: '12.x'
           version: '12.x'
 
       - name: Install node modules
@@ -26,10 +25,12 @@ jobs:
       - name: Run integration tests
         run: npm run test:no-watch
 
-      - name: Run end-to-end tests
-        run: |
-          npm start
-          npm run test:e2e
+      # Start the web server so that cypress can run e2e tests against it. Notice "&" at end, this ensures it's run in the background.
+      - name: Start web server
+        run: npm start &
+
+      - name: Run e2e tests
+        run: npm run test:e2e
 
   lint:
     name: Lint
@@ -42,7 +43,6 @@ jobs:
       - name: Setup Node.js for use with actions
         uses: actions/setup-node@v1.1.0
         with:
-          node-version: '12.x'
           version: '12.x'
 
       - name: Install node modules
@@ -62,7 +62,6 @@ jobs:
       - name: Setup Node.js for use with actions
         uses: actions/setup-node@v1.1.0
         with:
-          node-version: '12.x'
           version: '12.x'
 
       - name: Install node modules

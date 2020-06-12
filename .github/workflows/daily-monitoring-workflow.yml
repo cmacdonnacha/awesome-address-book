@@ -1,9 +1,9 @@
 name: Daily Monitoring
 
-## Runs every day at 1pm
+## Runs every day at 3pm. Note: Using Cron expression for time.
 on:
   schedule:
-    - cron: '* 13 * * *'
+    - cron: '0 15 * * *'
 
 jobs:
   test:
@@ -17,7 +17,6 @@ jobs:
       - name: Setup Node.js for use with actions
         uses: actions/setup-node@v1.1.0
         with:
-          node-version: '12.x'
           version: '12.x'
 
       - name: Install node modules
@@ -40,7 +39,6 @@ jobs:
       - name: Setup Node.js for use with actions
         uses: actions/setup-node@v1.1.0
         with:
-          node-version: '12.x'
           version: '12.x'
 
       - name: Install node modules
@@ -60,7 +58,6 @@ jobs:
       - name: Setup Node.js for use with actions
         uses: actions/setup-node@v1.1.0
         with:
-          node-version: '12.x'
           version: '12.x'
 
       - name: Install node modules
