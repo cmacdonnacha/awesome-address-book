@@ -1,10 +1,16 @@
 <h1 align="center">📖 Awesome Address Book 📖</h1>
 <br>
-<p align="center">This project shows a basic address book built with ReactJS, Redux Toolkit and Typescript 🚀</p>
+<p align="center">This project shows a basic address book built with ReactJS, Redux Toolkit, React Router and Typescript 🚀</p>
 
 <p align="center">
-  <a>
+  <a href="https://github.com/cmacdonnacha/awesome-address-book/actions?query=workflow%3A%22Continuous+Integration%22">
     <img src="https://github.com/cmacdonnacha/awesome-address-book/workflows/Continuous%20Integration/badge.svg" />
+  </a>
+  <a href="https://github.com/cmacdonnacha/awesome-address-book/actions?query=workflow%3A%22Daily+Monitoring%22">
+    <img src="https://github.com/cmacdonnacha/awesome-address-book/workflows/Daily%20Monitoring/badge.svg" />
+  </a>
+  <a href="https://dashboard.cypress.io/projects/qcywts/runs">
+    <img src="https://img.shields.io/badge/Cypress%20E2E%20Dashboard-Live-brightgreen.svg" />
   </a>
   <a>
     <img src="https://img.shields.io/david/cmacdonnacha/awesome-address-book.svg" />
